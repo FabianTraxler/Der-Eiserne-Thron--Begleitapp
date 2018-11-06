@@ -3,7 +3,7 @@
 # time is used to get the current time
 import time
 from game import Game
-from socket import GoT_Socket
+from GoT_socket import GoT_Socket
 # die selbst defineirten Funktionen importieren
 from funktionen import *
 
