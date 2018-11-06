@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # time is used to get the current time
 import time
 from game import Game

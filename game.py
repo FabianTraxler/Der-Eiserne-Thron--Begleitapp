@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # json to parse json data
 import json
 # time is used to get the current time

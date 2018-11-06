@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask_socketio import emit
 from Server import spiel, spielbareHauser
 # Funktion um eine Nachricht an Clients zu senden

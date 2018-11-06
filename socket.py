@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # import all required libraries
 # Flask is used as the websocket in order to communicate with all clients
 from flask import Flask, render_template
