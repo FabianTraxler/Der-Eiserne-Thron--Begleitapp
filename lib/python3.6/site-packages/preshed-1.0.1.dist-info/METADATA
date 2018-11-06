@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: preshed
+Version: 1.0.1
+Summary: Cython hash table that trusts the keys are pre-hashed
+Home-page: https://github.com/explosion/preshed
+Author: Matthew Honnibal
+Author-email: matt@explosion.ai
+License: MIT
+Platform: UNKNOWN
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Programming Language :: Cython
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Topic :: Scientific/Engineering
+Requires-Dist: cymem (<1.32.0,>=1.30)
+
+preshed: Cython Hash Table for Pre-Hashed Keys
+**********************************************
+
+Simple but high performance Cython hash table mapping pre-randomized keys to void* values. Inspired by `Jeff Preshing <http://preshing.com/20130107/this-hash-table-is-faster-than-a-judy-array/>`_
+
+.. image:: https://img.shields.io/travis/explosion/preshed/master.svg?style=flat-square
+    :target: https://travis-ci.org/explosion/preshed
+    :alt: Build Status
+
+.. image:: https://img.shields.io/appveyor/ci/explosion/preshed/master.svg?style=flat-square
+    :target: https://ci.appveyor.com/project/explosion/preshed
+    :alt: Appveyor Build Status
+
+.. image:: https://img.shields.io/pypi/v/preshed.svg?style=flat-square  
+    :target: https://pypi.python.org/pypi/preshed
+    :alt: pypi Version
+
+
