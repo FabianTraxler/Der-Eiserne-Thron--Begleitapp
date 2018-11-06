@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="apple-mobile-web-app-title" content="GOT-Brettspiel" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="viewport" content = "width = device-width, initial-scale = 1.0, minimum-scale = 1, maximum-scale = 1, user-scalable = no" />
+        <link rel="apple-touch-icon" href="Icons/GoT_icon.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="Icons/GoT_icon.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="Icons/GoT_icon.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="Icons/GoT_icon.png">
+        <link rel="apple-touch-startup-image" href="Wallpaper/GoT-Wallpaper.jpg">
+        <link href="splashscreens/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/iphone6_splash.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/iphoneplus_splash.png" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+        <title>Das Spiel der Throne</title>
+        <link rel="stylesheet" href="index.css?v=5"/>
+        <script src="jquery-3.3.1.min.js"></script>
+        <script src="NoSleep.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                
+                    // iOS web app full screen hacks.
+                    if(window.navigator.standalone == true) {
+                            // make all link remain in web app mode.
+                            $('a').click(function() {
+                                    window.location = $(this).attr('href');
+                        return false;
+                            });
+                    }
+            });
+        </script>
+        <script src="socket.io.js"></script>
+    </head>
+    <body ontouchstart="">
+        <div id='loadingDisplay'>
+            <p>Auf Serververbindung warten ...</p>
+        </div>
+        <div id='wrapper'>
+            <div id='header'>
+                <p id="anzeige">Username eingeben!</p>
+            </div>
+            <div id='middle'>
+                <div id='containerTop' class='container'>
+                </div>
+                <div id='containerBottom' class='container'></div>
+
+                <input id="input" name="input" placeholder="" value="" type="text"/>
+                <p id='timer'></p>
+            </div>
+            <div id='footer'>
+                    <button id="button"></button>
+                    <button id='angriffButton'></button>
+                    <ul id='hausAuswahl'></ul>
+                    <ul id='userAuswahl'></ul>
+            </div>
+        </div>
+        <script src='functions.js?v=3'></script>
+        <script src='websocket.js?v=3'></script>
+        
+    </body>
+</html>
+

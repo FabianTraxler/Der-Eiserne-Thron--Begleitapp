@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css?family=Caveat+Brush');
+
+html, body{
+    height: auto;
+    width: 100vw;
+    font-family: 'Caveat Brush', serif;
+    box-sizing: border-box;
+
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    font-size: 1em;
+
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+@keyframes background {
+    0%  {background-image: url('Wallpapers/GoT_1.jpg');}
+    20%  {background-image: url('Wallpapers/GoT_2.jpg');}
+    40%  {background-image: url('Wallpapers/GoT_2.jpg');}
+    60% {background-image: url('Wallpapers/GoT_3.jpg');}
+    80% {background-image: url('Wallpapers/GoT_3.jpg');}
+    100% {background-image: url('Wallpapers/GoT_1.jpg');}
+}
+
+#loadingDisplay{
+    background-image:
+    url('Wallpapers/GoT_1.jpg'),
+    url('Wallpapers/GoT_2.jpg'),
+    url('Wallpapers/GoT_3.jpg');
+    -moz-animation: background 30s 1s infinite;
+    -webkit-animation: background 30s 1s infinite;
+    -o-animation: background 30s 1s infinite;
+    animation: background 30s 1s infinite;
+
+    background-position: center center;
+    background-size: cover;
+    z-index: 100;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom: 0;
+    height: 100%;
+}
+#loadingDisplay p{
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.5);
+    color: whitesmoke;
+    font-size: 200%;
+    text-align: center;
+    margin: 0;
+    padding: 15px 30px;
+}
+#wrapper{
+    font-size: 200%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-image: url('Wallpapers/GoT.jpg');
+    background-size: cover;
+    background-position: center center;
+    
+}
+#header{
+    position: absolute;
+    width: 100%;
+    top: 0;
+
+    background-color: rgba(0,0,0, 0.9);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    color: white;
+    text-align: center;
+}
+#anzeige{
+    margin: 7% 0 7% 0;
+}
+
+
+#middle{
+    position: absolute;
+    width: 100%;
+    bottom: 15%;
+}
+#hausanzeige{
+    position: absolute;
+    top:5%;
+    left: 5%;
+    width: 90%;
+    height: 40%;
+}
+#first{
+    position: relative;
+    top: 0;
+    height: 50%;
+}
+#second{
+    position: relative;
+    bottom: 0;
+    height: 50%;
+}
+#input{
+    display: none;
+    float: left;
+    position: absolute;
+    bottom: 5%;
+    left: 10%;
+    width: 80%;
+    height: 10%;
+    background-color: rgba(0,0,0, 0.8);
+
+    color: white;
+    text-decoration: none;
+    border: 0;
+    border-radius: 10px;
+    font-size: 100%;
+    text-align: center;
+}
+#timer{
+    display: none;
+    position: absolute;
+    left: 10%;
+    bottom: 10%;
+    width: 80%;
+    background-color: rgba(0,0,0, 0.5);
+
+    color: white;
+    text-decoration: none;
+    border: 0;
+    border-radius: 10px;
+    text-align: center;
+    margin: 0;
+}
+
+
+
+#footer{
+    display: block;
+    position: absolute;
+    height: 15%;
+    width: 100%;
+    bottom: 0;
+    overflow: visible;
+
+    background-color: rgba(0,0,0, 0.8);
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+}
+
+#button{
+    display: none;
+    position: absolute;
+    top:0;
+    left: 15%;
+    width: 70%;
+    height: 100%;
+    background-color: rgba(100,100,100, 0.5);
+    border-radius: 30px;
+    
+    color: white;
+    text-decoration: none;
+    border: 0;
+    border-radius: 10px;
+    font-size: 90%;
+    text-align: center;
+    font-family: 'Caveat Brush', serif;
+}
+#button:active {
+    background-color: rgb(111, 111, 111,1);
+    box-shadow: 0 0 9px #999;    
+}
+#angriffButton{
+    display: none;
+    position: absolute;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    background-color: rgba(243, 65, 65, 0.5);
+    padding:0;
+    color: white;
+    text-decoration: none;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0;
+    font-size: 90%;
+    text-align: center;
+    font-family: 'Caveat Brush', serif;
+}
+#hausAuswahl{
+    display: none;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+#hausAuswahl li{
+    list-style-type: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 200%;
+}
+#userAuswahl{
+    display: none;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+#userAuswahl li{
+    list-style-type: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 200%;
+}
+
+#Baratheon{
+    background-image: url('Hauswappen/Baratheon.jpg');
+    background-size: cover;
+    background-position: center center;
+
+}
+#Lannister{
+    background-image: url('Hauswappen/Lannister.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+#Stark{
+    background-image: url('Hauswappen/Stark.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+#Greyjoy{
+    background-image: url('Hauswappen/Greyjoy.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+#Martell{
+    background-image: url('Hauswappen/Martell.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+#Tyrell{
+    background-image: url('Hauswappen/Tyrell.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+
+.hausStatus{
+    margin:0;
+    margin-left: 2.5%;
+    width: 30%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    float: left;
+}
+.hausWarten{
+    background-color: rgba(0,0,0,0.7);
+    width: 100%;
+    height: 100%;
+}
+.container{
+    opacity: 0;
+    transition: all 0.5s;
+}
+#containerTop{
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    height: 25%;
+}
+#containerBottom{
+    position: absolute;
+    top: 29%;
+    width: 100%;
+    height: 25%;
+}
+@media screen and (max-width:321px){
+    #wrapper{
+        font-size: 175%;
+    }
+}
