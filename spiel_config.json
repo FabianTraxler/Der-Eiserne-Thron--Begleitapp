@@ -5,7 +5,7 @@
             "PositionenNormal":{
                 "Thronfolge":1,
                 "Lehenleiste":5,
-                "Königshof":4
+                "konigshof":4
             },            
             "Status":""
         },
@@ -14,7 +14,7 @@
             "PositionenNormal":{
                 "Thronfolge":2,
                 "Lehenleiste":6,
-                "Königshof":3
+                "konigshof":3
             },
             "Status":""
         },
@@ -23,7 +23,7 @@
             "PositionenNormal":{
                 "Thronfolge":3,
                 "Lehenleiste":4,
-                "Königshof":2
+                "konigshof":2
             },
             "Status":""
         },
@@ -32,7 +32,7 @@
             "PositionenNormal":{
                 "Thronfolge":4,
                 "Lehenleiste":3,
-                "Königshof":2
+                "konigshof":2
             },
             "Status":""
         },
@@ -41,7 +41,7 @@
             "PositionenNormal":{
                 "Thronfolge":5,
                 "Lehenleiste":6,
-                "Königshof":1
+                "konigshof":1
             },
             "Status":""
         },
@@ -50,7 +50,7 @@
             "PositionenNormal":{
                 "Thronfolge":6,
                 "Lehenleiste":2,
-                "Königshof":5
+                "konigshof":5
             },
             "Status":""
         }

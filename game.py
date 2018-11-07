@@ -78,12 +78,12 @@ class Game:
         self.rabenleistePositionen = []
         for haus in self.spielbareHauser:
             self.spiel['Spieler'][haus]['User'] = User()
-            self.rabenleistePositionen.append(self.spiel['Spieler'][haus]['PositionenNormal']['Königshof'])
+            self.rabenleistePositionen.append(self.spiel['Spieler'][haus]['PositionenNormal']['konigshof'])
             self.gelegteMarschbefehle[haus] = 0
         self.rabenPosition = min(tuple(self.rabenleistePositionen))
         # Den Raben ermitteln (Rabe = Haus mit der niedrigsten Position auf der Königshofleiste)
         for self.haus in self.spielbareHauser:
-            if(self.rabenPosition == self.spiel['Spieler'][self.haus]['PositionenNormal']['Königshof']):
+            if(self.rabenPosition == self.spiel['Spieler'][self.haus]['PositionenNormal']['konigshof']):
                 self.rabe = self.haus
         self.app = socketApp
         self.socketio = socketIO
