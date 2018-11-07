@@ -297,7 +297,6 @@ class Game:
             'msg': 'Spiel wird gestartet',
             'usernames':self.usernames
         }
-        print(self.spiel)
         self.sendMessage('start', nachricht)
         self.Spielschritt = 'Start'
         self.startRound(self.spielrunde)
