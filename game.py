@@ -36,7 +36,9 @@ class User:
 
 class Game:
     # Spiel initialisieren
-    def __init__(self,game_variant, numb_of_players, socketApp, socketIO):
+    def __init__(self,gamename, game_variant, numb_of_players, socketApp, socketIO):
+        #Spielnamen initialisieren
+        self.name = gamename
         # Spielkonfiguaration laden
         self.spiel = json.load(open('spiel_config.json'))
         # Spielstatistiken laden
@@ -89,7 +91,7 @@ class Game:
     
     def sendMessage(self, ID, Nachricht, broadcast = True):
         self.nachricht = {
-            'Name': 'admin',
+            'Name': self.name,
             'Haus': 'admin',
             'message': Nachricht
         }

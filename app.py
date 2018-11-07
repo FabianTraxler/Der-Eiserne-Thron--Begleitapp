@@ -52,7 +52,7 @@ def create_new_game(data):
     name = data['name']
     variant = data['variant']
     numbOfPlayers = data['numb']
-    games[name] = Game(variant,numbOfPlayers,app,socketio)
+    games[name] = Game(name, variant,numbOfPlayers,app,socketio)
 
 ### Spiel selbst starten mit name = game1
 # game1 = Game('normal','2', socket)
