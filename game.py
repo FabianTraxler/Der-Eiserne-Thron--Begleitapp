@@ -190,7 +190,8 @@ class Game:
                 self.stats['Spieler'][user][self.today][spielzug] = daten[spielzug]
     #Funktionen die nacheinandern (verkehrte Reihenfolge) durchgeführt werden
     def westerosphase(self):
-        
+        ## Muss noch adaptiert werden um mit Host Webinterface richtig zu kommunizieren
+        change = 'Y'
         if(change == 'Y'):
             print('--------------')
             print('---------------------')
