@@ -52,10 +52,8 @@ function showHausauswahl(){
 }
 function saveHaus(){
     $('.haus').off('click',saveHaus);
-    gamename = 'test'
     UserHaus = $(this).html();
     nachricht['Haus'] = UserHaus;
-    nachricht['gamename'] = gamename;
     $(this).remove();
     $('.container').css('opacity',1)
     var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';
@@ -76,11 +74,8 @@ function restoreHaus(haus){
 
 function saveName(){
     Username = $('#input').val();
-    gamename = 'test'
     nachricht['Name'] = Username;
-    nachricht['gamename'] = gamename;
     setCookie('Username',Username,4);
-    setCookie('gamename',gamename,4);
     socket.emit('joining', nachricht);
     $('#anzeige').html('Haus wählen!');
     $('#input').css('display','none');

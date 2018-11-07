@@ -20,10 +20,11 @@ socketio = SocketIO(app)
 
 @socketio.on('joining')
 def initializGame(data):
+    
     if data['gamename']:
         games[data['gamename']].initializeGame(data)
     else:
-        emit('setGamename',games.keys(), broadcast = False)
+        emit('setGamename',list(games.keys()), broadcast = False)
 @socketio.on('join')
 def on_join(data):
     games[data['gamename']].on_join(data)
@@ -35,7 +36,7 @@ def angriff(data):
     games[data['gamename']].angriff(data)
 @socketio.on('restore')
 def restoreSession(data):
-    if data['gamename']:
+    if data['gamename'] in games:
         games[data['gamename']].restoreSession(data)
     else:
         emit('setGamename',list(games.keys()), broadcast = False)
@@ -53,10 +54,12 @@ def create_new_game(data):
     variant = data['variant']
     numbOfPlayers = data['numb']
     games[name] = Game(name, variant,numbOfPlayers,app,socketio)
-
+@socketio.on('westerosEnde')
+def westerosEnde(data):
+    games[data['gamename']].westerosphase(data)
 ### Spiel selbst starten mit name = game1
 # game1 = Game('normal','2', socket)
 # IP Adresse des Server mit socket auslesen
 if __name__ == '__main__':
-    create_new_game({'name':'test','variant':'normal','numb':'2'})
+    #create_new_game({'name':'test','variant':'normal','numb':'2'})
     socketio.run(app, host=IP, port='9191')

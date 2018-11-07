@@ -108,6 +108,7 @@ class Game:
             "Zeit": zeit,
             'Geschehen':''
         }
+        print(self.timer)
         self.timerStart = time.time()
         if(betroffener != 'Alle'):
                 self.timer["Geschehen"] = self.spiel['Spieler'][betroffener]['User'].name + ' ist am Zug!'
@@ -189,26 +190,12 @@ class Game:
             for spielzug in daten.keys():
                 self.stats['Spieler'][user][self.today][spielzug] = daten[spielzug]
     #Funktionen die nacheinandern (verkehrte Reihenfolge) durchgeführt werden
-    def westerosphase(self):
+    def westerosphase(self,data):
+        if data['message']['change']:
+            self.rabe = data['message']['rabe']
+            self.reihenfolge = data['message']['reihenfolge']
         ## Muss noch adaptiert werden um mit Host Webinterface richtig zu kommunizieren
-        change = 'Y'
-        if(change == 'Y'):
-            print('--------------')
-            print('---------------------')
-            print('Bitte bei jedem Haus die Position auf der Thronfolge eingeben!')
-            reihenfolgeNeu = self.reihenfolge.copy()
-            for haus in self.spielbareHauser:
-                index = int(input('Haus ' + haus + ' >>> '))
-                self.spiel['Spieler'][haus]['Thronfolge'] = index
-                reihenfolgeNeu[index - 1] = haus
-            self.reihenfolge = reihenfolgeNeu.copy()
-            rabe = input('Wer ist der Rabe? >>> ')
-            while(rabe not in self.spielbareHauser):
-                rabe = input('Wer ist der Rabe? >>> ')
         self.AmZugReihenfolgeDurchgang = 0
-        fertig = ''
-        while(fertig != 'Y'):
-            fertig = input('Westerosphase zu Ende?(Y/N)')
         self.spielrunde +=1
         self.startRound(self.spielrunde)
 
@@ -376,7 +363,6 @@ class Game:
             if(Status == 'westerosphaseFertig'):
                 self.nochNichtFertig = self.spielbareHauser.copy()
                 self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig)
-                self.westerosphase()
         else:
             if(Status == 'Befehlsmarker gelegt'):
                 self.updateStats(Haus,Status, self.zeit)
@@ -452,7 +438,8 @@ class Game:
                 print(str(data['Name']) + ' noch nicht im Spiel >>> Neuen Spieler anlegen')
                 emit('reconnect','',broadcast = False)
     def restoreSchritt(self, data):
-            self.neuenSpielerAktualisieren(data)
+            print('restoreSchritt')
+            self.neuenSpielerAktualisieren(data['Haus'])
     def anzahlBefehlsmarkerAktualisieren(self, data):
             haus = data['Haus']
             anzahl = int(data['Anzahl'])
