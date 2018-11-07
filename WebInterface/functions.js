@@ -1,7 +1,10 @@
 var Username = '';
 var UserHaus = '';
 var UserNames = [];
+var gamename = '';
+var host = false;
 var nachricht = {
+    'gamename': '',
     'Name':'',
     'Haus':'',
     'message':''
@@ -49,8 +52,10 @@ function showHausauswahl(){
 }
 function saveHaus(){
     $('.haus').off('click',saveHaus);
+    gamename = 'test'
     UserHaus = $(this).html();
     nachricht['Haus'] = UserHaus;
+    nachricht['gamename'] = gamename;
     $(this).remove();
     $('.container').css('opacity',1)
     var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';
@@ -71,9 +76,12 @@ function restoreHaus(haus){
 
 function saveName(){
     Username = $('#input').val();
+    gamename = 'test'
     nachricht['Name'] = Username;
-    setCookie('Username',Username,4)
-    socket.emit('joining', Username);
+    nachricht['gamename'] = gamename;
+    setCookie('Username',Username,4);
+    setCookie('gamename',gamename,4);
+    socket.emit('joining', nachricht);
     $('#anzeige').html('Haus wählen!');
     $('#input').css('display','none');
     $('#input').css('display','none');
@@ -154,6 +162,7 @@ function befehlsmarkerEnd(){
     $('#angriffButton').off('click',);
     nachricht['message'] = 'Befehlsmarker gelegt';
     var befehlsmarker = {
+        'gamename' : gamename,
         'Anzahl': anzahl,
         'Haus':UserHaus
     }
@@ -223,6 +232,7 @@ function angriffMachen(verteidiger){
     $('.haus').off('click',);
     $('#userAuswahl').css('display','none');
     message ={
+        'gamename':gamename,
         'Angreifer':UserHaus,
         'Verteidiger':verteidiger
     };

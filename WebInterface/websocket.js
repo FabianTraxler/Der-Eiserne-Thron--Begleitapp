@@ -47,44 +47,101 @@ function getCookie(name) {
 function eraseCookie(name) {   
     document.cookie = name+'=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';  
 }
-
+eraseCookie('gamename');
+eraseCookie('name');
 var socket = io.connect('http://' + window.location.hostname + ':9191');
-socket.emit('pong','');
-socket.on('ping',function(){
-    console.log('PING');
-    socket.emit('pong','');
-});
+//socket.emit('pong','');
+//socket.on('ping',function(){
+    //console.log('PING');
+    //socket.emit('pong','');
+//});
 // verify our websocket connection is established
 //eraseCookie('Username');
-if(document.cookie || Username){
-    if(document.cookie){
-        Username = getCookie('Username');
-        $('#input').val(Username);
-    }
-    console.log(Username)
-    socket.emit('restore',Username);
+socket.on('setGamename', function(msg){
+    $('#loadingDisplay').css('display','none');
+    console.log('Websocket connected!');
+    $('#anzeige').html('Spiel hosten oder beitreten?');
+    $('#button').css('left','0')
+    $('#button').css('display','block').html('Spiel hosten');
+    $('#button').on('click',function(){
+        host = true;
+        setCookie('host', true, 4);
+        $('#angriffButton').off('click');
+        $('#button').off('click');
+        $('#angriffButton').css('display','none');
+        $('#button').css('display','none');
+        $('#button').css('left','15%');
+        $('#hostPage').css('display','block');
+        $('#hostInputs').css('display','block');
+        $('#footerHost').css('display','block');
+        $('#spielerposition').css('display','none');
+        $('#hostButton').on('click', function(){
+            $('#hostButton').off('click');
+            console.log('Spiel hosten')
+            $('#hostPage').css('display','none');
+            message = {
+                'name':$('#spielname').val(),
+                'variant':$('#variant').val(),
+                'numb':$('#spieleranzahl').val()
+            }
+            socket.emit('host', message);
+            nachricht['gamename'] = $('#spielname').val();
+            socket.emit('restore',nachricht)
+        })
+    });
+    $('#angriffButton').html('Beitreten');
+    $('#angriffButton').css('display','block');
+    $('#angriffButton').on('click',function(){
+        $('#angriffButton').off('click');
+        $('#angriffButton').css('display','none')
+        $('#button').off('click');
+        $('#button').css('display','none')
+        $('#button').css('left','15%');
+        $('#spielAuswahl').html('');
+        for(var i = 0; i < msg.length; i++){
+            $('#spielAuswahl').append('<li><a class="spiel">' + msg[i] + '</a></li>');   
+        }
+        $('#spielAuswahl').css('display','block');
+        $('.spiel').on('click',function(){
+            $('#spielAuswahl').css('display','none');
+            $('#button').css('left','15%');
+            $('#angriffButton').css('display','none');
+            $('.spiel').on('click');
+            nachricht['gamename'] = $(this).html();
+            socket.emit('restore',nachricht)
+        });
+    });    
+});
+if(document.cookie){
+    Username = getCookie('Username');
+    gamename = getCookie('gamename');
+    host = getCookie('host');
+    $('#input').val(Username);
+    
+    nachricht['gamename'] = gamename;
+    nachricht['Name'] = Username;
+    socket.emit('restore',nachricht);
     socket.on('restoreHaus', function(msg){
         $('#loadingDisplay').css('display','none');
-        UserHaus = msg.Haus;
-        saveUsernames(msg.Userliste)
-        nachricht['Haus'] = msg.Haus;
+        UserHaus = msg.message.Haus;
+        saveUsernames(msg.message.Userliste)
+        nachricht['Haus'] = UserHaus;
         $('.container').css('opacity',1);
         var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';
         $('#wrapper').css('background-image', bildURL);
-        createNochNichtFertig(msg.Hausliste);
-        hausliste = msg.Hausliste;
+        createNochNichtFertig(msg.message.Hausliste);
+        hausliste = msg.message.Hausliste;
         var index = hausliste.indexOf(UserHaus);
         if (index !== -1){
             hausliste.splice(index, 1);
         } 
         
         createHausauswahl(msg.Hausliste);
-        socket.emit('restoreSpielschritt',UserHaus);
+        socket.emit('restoreSpielschritt',nachricht);
     });
-
     socket.on('reconnect', function() {
         $('#loadingDisplay').css('display','none');
-        console.log('Websocket connected!');
+        console.log('Game loaded!');
         $('#anzeige').html('Username eingeben!');
         $('#input').css('display','block').attr('placeholder','John Snow');
         $('#button').css('display','block').html('Senden');
@@ -101,7 +158,6 @@ if(document.cookie || Username){
     });
 }
 
-// message handler for the 'join_room' channel
 socket.on('initialize',function(msg){
     spielschritt = 1;
     console.log('initialize');
@@ -126,7 +182,7 @@ socket.on('joined', function(msg) {
     }
 });
 socket.on('start', function(msg) {
-    console.log('start');
+    console.log(msg.message.usernames);
     saveUsernames(msg.message.usernames)
     $('#anzeige').html(msg.message.msg);
 });
@@ -188,9 +244,50 @@ socket.on('machtzuwachs', function(msg) {
 });
 socket.on('westeros', function(msg) {
     console.log(msg.message);
-    $('#anzeige').html(msg.message);
-    $('#button').css('display','block').html('Ready für die nächste Runde!');
-    $('#button').on('click',westerosphase);
+    if(host){
+        $('#anzeige').html('Gab es Änderungen in der Westerosphase?');
+        $('#button').css('left','0')
+        $('#button').css('display','block').html('Änderungen');
+        $('#button').on('click',function(){
+            $('#angriffButton').off('click');
+            $('#button').off('click');
+            $('#angriffButton').css('display','none');
+            $('#button').css('display','none');
+            $('#button').css('left','15%');
+            $('#hostPage').css('display','block');
+            $('#hostInputs').css('display','block');
+            $('#footerHost').css('display','block');
+            $('#spielerposition').css('display','none');
+            $('#hostButton').on('click', function(){
+                // Diese Funktion muss noch richtig implementirert werden
+                $('#hostButton').off('click');
+                console.log('Spiel hosten')
+                $('#hostPage').css('display','none');
+                message = {
+                    'name':$('#spielname').val(),
+                    'variant':$('#variant').val(),
+                    'numb':$('#spieleranzahl').val()
+                }
+                socket.emit('host', message);
+                nachricht['gamename'] = $('#spielname').val();
+            })
+        });
+        $('#angriffButton').html('Keine Änderungen');
+        $('#angriffButton').css('display','block');
+        $('#angriffButton').on('click',function(){
+            $('#angriffButton').off('click');
+            $('#button').off('click');
+            $('#angriffButton').css('display','none');
+            $('#button').css('display','none');
+            $('#button').css('left','15%');
+            socket.emit('westerosEnde', false)
+        });
+    }else{
+        $('#anzeige').html(msg.message);
+        $('#button').css('display','block').html('Ready für die nächste Runde!');
+        $('#button').on('click',westerosphase);
+    }
+    
 });
 socket.on('ende', function(msg){
     $('#anzeige').html(msg.message);

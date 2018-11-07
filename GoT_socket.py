@@ -17,5 +17,9 @@ class GoT_Socket:
         self.app = Flask(__name__)
         self.socketio = SocketIO(self.app)
         self.socketio.run(self.app, host=self.IP, port=PORT)
-    
-  
+        @self.socketio.on('pong')
+        def pong(data):
+            print('Pongo')
+    def emit(self, ID, nachricht, broadcast = True):
+        print('Nachricht gesendet')
+        emit(ID,nachricht, broadcast = broadcast)

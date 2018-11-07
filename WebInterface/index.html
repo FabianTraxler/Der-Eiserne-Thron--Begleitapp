@@ -39,6 +39,23 @@
         <div id='loadingDisplay'>
             <p>Auf Serververbindung warten ...</p>
         </div>
+        <div id='hostPage'>
+            <p id='eingaufforderung'>Spielname eingabe</p>
+            <div id='hostInputs'>
+                <label for='spielname'>Name des Spiels</label>
+                <input id="spielname" class='hostEingabe' name="input" placeholder="" value="" type="text"/>
+                <label for='spielname'>Name des Spiels</label>
+                <input id="spielerposition" class='hostEingabe' name="input" placeholder="" value="" type="number"/>
+                <label for='spielname'>Name des Spiels</label>
+                <input id="spieleranzahl" class='hostEingabe' name="input" placeholder="" value="" type="number"/>
+                <label for='spielname'>Name des Spiels</label>
+                <input id="variant" class='hostEingabe' name="input" placeholder="" value="" type="text"/>
+            </div>
+            <div id='footerHost'>
+                <button id='hostButton'>Host Game</button>
+            </div>
+            
+        </div>
         <div id='wrapper'>
             <div id='header'>
                 <p id="anzeige">Username eingeben!</p>
@@ -56,10 +73,11 @@
                     <button id='angriffButton'></button>
                     <ul id='hausAuswahl'></ul>
                     <ul id='userAuswahl'></ul>
+                    <ul id='spielAuswahl'></ul>
             </div>
         </div>
-        <script src='functions.js?v=3'></script>
-        <script src='websocket.js?v=3'></script>
+        <script src='functions.js?v=11'></script>
+        <script src='websocket.js?v=11'></script>
         
     </body>
 </html>
