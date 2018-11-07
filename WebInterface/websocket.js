@@ -245,6 +245,8 @@ socket.on('machtzuwachs', function(msg) {
 socket.on('westeros', function(msg) {
     console.log(msg.message);
     if(host){
+		nachricht['message'] = 'westerosphaseFertig';
+    	socket.emit('status',nachricht)
         $('#anzeige').html('Gab es Änderungen in der Westerosphase?');
         $('#button').css('left','0')
         $('#button').css('display','block').html('Änderungen');
@@ -261,15 +263,13 @@ socket.on('westeros', function(msg) {
             $('#hostButton').on('click', function(){
                 // Diese Funktion muss noch richtig implementirert werden
                 $('#hostButton').off('click');
-                console.log('Spiel hosten')
                 $('#hostPage').css('display','none');
                 message = {
-                    'name':$('#spielname').val(),
-                    'variant':$('#variant').val(),
-                    'numb':$('#spieleranzahl').val()
+					'Neuigkeiten':false,
+                    'reihenfolge':[],
+                    'rabe':'rabe'
                 }
                 socket.emit('host', message);
-                nachricht['gamename'] = $('#spielname').val();
             })
         });
         $('#angriffButton').html('Keine Änderungen');
@@ -280,7 +280,10 @@ socket.on('westeros', function(msg) {
             $('#angriffButton').css('display','none');
             $('#button').css('display','none');
             $('#button').css('left','15%');
-            socket.emit('westerosEnde', false)
+			message={
+				'Neuigkeiten':false	
+			}
+            socket.emit('westerosHost', false);
         });
     }else{
         $('#anzeige').html(msg.message);

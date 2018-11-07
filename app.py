@@ -53,7 +53,13 @@ def create_new_game(data):
     variant = data['variant']
     numbOfPlayers = data['numb']
     games[name] = Game(name, variant,numbOfPlayers,app,socketio)
-
+@socketio.on('westerorsHost')
+def westerosHost(data):
+    print(data)
+    if data:
+        games[data['gamename']].westeros(data['reihenfolge'], data['rabe']) 
+    else:
+        games[data['gamename']].westeros(reihenfolge, rabe)
 ### Spiel selbst starten mit name = game1
 # game1 = Game('normal','2', socket)
 # IP Adresse des Server mit socket auslesen

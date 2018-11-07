@@ -189,26 +189,11 @@ class Game:
             for spielzug in daten.keys():
                 self.stats['Spieler'][user][self.today][spielzug] = daten[spielzug]
     #Funktionen die nacheinandern (verkehrte Reihenfolge) durchgeführt werden
-    def westerosphase(self):
+    def westerosphase(self, reihenfolgeNeu, rabeNeu):
         ## Muss noch adaptiert werden um mit Host Webinterface richtig zu kommunizieren
-        change = 'Y'
-        if(change == 'Y'):
-            print('--------------')
-            print('---------------------')
-            print('Bitte bei jedem Haus die Position auf der Thronfolge eingeben!')
-            reihenfolgeNeu = self.reihenfolge.copy()
-            for haus in self.spielbareHauser:
-                index = int(input('Haus ' + haus + ' >>> '))
-                self.spiel['Spieler'][haus]['Thronfolge'] = index
-                reihenfolgeNeu[index - 1] = haus
-            self.reihenfolge = reihenfolgeNeu.copy()
-            rabe = input('Wer ist der Rabe? >>> ')
-            while(rabe not in self.spielbareHauser):
-                rabe = input('Wer ist der Rabe? >>> ')
+        self.reihenfolge = reihenfolgeNeu.copy()
+        rabe = rabeNeu
         self.AmZugReihenfolgeDurchgang = 0
-        fertig = ''
-        while(fertig != 'Y'):
-            fertig = input('Westerosphase zu Ende?(Y/N)')
         self.spielrunde +=1
         self.startRound(self.spielrunde)
 
