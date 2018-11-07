@@ -81,7 +81,7 @@ html, body{
     padding: 15px 30px;
 }
 #hostInputs{
-    display: none;
+    display: block;
     bottom: 15%;
     left: 0;
     right: 0;
@@ -89,13 +89,22 @@ html, body{
     position: absolute;
 }
 .hostEingabe{
-    display: block;
+    display: none;
     float: left;
-    width: 100%;
+    width: 90%;
     height: 30px;
     margin: 5px;
+    border-radius: 5px;
 }
-
+label{
+    float: left;
+    color: white;
+    font-size: 120%;
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 5px;
+    margin-left: 5%;
+    padding: 5px;
+}
 #footerHost{
     display: none;
     position: absolute;

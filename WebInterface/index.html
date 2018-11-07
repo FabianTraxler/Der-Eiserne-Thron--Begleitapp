@@ -42,14 +42,17 @@
         <div id='hostPage'>
             <p id='eingaufforderung'>Spielname eingabe</p>
             <div id='hostInputs'>
-                <label for='spielname'>Name des Spiels</label>
+                <label for='spielname' id="spielnameLabel">Name des Spiels</label>
                 <input id="spielname" class='hostEingabe' name="input" placeholder="" value="" type="text"/>
-                <label for='spielname'>Name des Spiels</label>
-                <input id="spielerposition" class='hostEingabe' name="input" placeholder="" value="" type="number"/>
-                <label for='spielname'>Name des Spiels</label>
-                <input id="spieleranzahl" class='hostEingabe' name="input" placeholder="" value="" type="number"/>
-                <label for='spielname'>Name des Spiels</label>
-                <input id="variant" class='hostEingabe' name="input" placeholder="" value="" type="text"/>
+                <label for='variant' id="variantLabel">Spielvariante</label>
+                <input id="variant" class='hostEingabe' name="input" placeholder="normal" value="normal" type="text"/>
+                <label for='spieleranzahl' id="spieleranzahlLabel">Anzahl der Spieler</label>
+                <input id="spieleranzahl" class='hostEingabe' name="input" placeholder="4" value="" type="number"/>
+                <label for='spielerposition' id="spielerpositionLabel">Positionen der Häuser (nur Anfangsbuchstaben)</label>
+                <input id="spielerposition" class='hostEingabe' name="input" placeholder="B L S" value="" type="text"/>
+                <label for='rabe' id="rabeLabel">Haus das Rabe ist</label>
+                <input id="rabe" class='hostEingabe' name="input" placeholder="Stark" value="" type="text"/>
+                
             </div>
             <div id='footerHost'>
                 <button id='hostButton'>Host Game</button>

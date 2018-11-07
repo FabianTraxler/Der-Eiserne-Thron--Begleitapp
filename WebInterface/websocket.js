@@ -6,6 +6,7 @@ var countdown = new Audio("tones/silence.mp3");
 var chaChing = new Audio("tones/silence.mp3");
 var befehleStart = new Audio("tones/silence.mp3");
 
+var spielAuswahl = [];
 function enableNoSleep() {
     dong.play();
     weitermachen.play();
@@ -56,6 +57,7 @@ var socket = io.connect('http://' + window.location.hostname + ':9191');
 // verify our websocket connection is established
 //eraseCookie('Username');
 socket.on('setGamename', function(msg){
+    spielAuswahl = msg;
     $('#loadingDisplay').css('display','none');
     console.log('Websocket connected!');
     $('#anzeige').html('Spiel hosten oder beitreten?');
@@ -70,10 +72,22 @@ socket.on('setGamename', function(msg){
         $('#button').css('display','none');
         $('#button').css('left','15%');
         $('#hostPage').css('display','block');
+        $('#spielname').css('display','block');
+        $('#variant').css('display','block');
+        $('#spieleranzahl').css('display','block');
+        $('#spielnameLabel').css('display','block');
+        $('#variantLabel').css('display','block');
+        $('#spieleranzahlLabel').css('display','block');
         $('#hostInputs').css('display','block');
         $('#footerHost').css('display','block');
         $('#spielerposition').css('display','none');
         $('#hostButton').on('click', function(){
+            $('#spielname').css('display','none');
+            $('#variant').css('display','none');
+            $('#spieleranzahl').css('display','none');
+            $('#spielnameLabel').css('display','none');
+            $('#variantLabel').css('display','none');
+            $('#spieleranzahlLabel').css('display','none');
             $('#hostButton').off('click');
             console.log('Spiel hosten')
             $('#hostPage').css('display','none');
@@ -83,6 +97,7 @@ socket.on('setGamename', function(msg){
                 'numb':$('#spieleranzahl').val()
             }
             socket.emit('host', message);
+            gamename = $('#spielname').val();
             nachricht['gamename'] = $('#spielname').val();
             setCookie('gamename',nachricht['gamename'],4)
             socket.emit('restore',nachricht)
@@ -93,26 +108,50 @@ socket.on('setGamename', function(msg){
     $('#angriffButton').on('click',function(){
         host = false;
         setCookie('host', false, 4);
+        socket.emit('reloadGames','');
+        $('#spielname').css('display','none');
+        $('#variant').css('display','none');
+        $('#spieleranzahl').css('display','none');
+        $('#spielnameLabel').css('display','none');
+        $('#variantLabel').css('display','none');
+        $('#spieleranzahlLabel').css('display','none');
         $('#angriffButton').off('click');
         $('#angriffButton').css('display','none')
         $('#button').off('click');
         $('#button').css('display','none')
         $('#button').css('left','15%');
         $('#spielAuswahl').html('');
-        for(var i = 0; i < msg.length; i++){
-            $('#spielAuswahl').append('<li><a class="spiel">' + msg[i] + '</a></li>');   
+        for(var i = 0; i < spielAuswahl.length; i++){
+            $('#spielAuswahl').append('<li><a class="spiel">' + spielAuswahl[i] + '</a></li>');   
         }
         $('#spielAuswahl').css('display','block');
         $('.spiel').on('click',function(){
             $('#spielAuswahl').css('display','none');
             $('#button').css('left','15%');
             $('#angriffButton').css('display','none');
-            $('.spiel').on('click');
+            $('.spiel').off('click');
+            gamename = $(this).html();
             nachricht['gamename'] = $(this).html();
             setCookie('gamename',nachricht['gamename'],4)
             socket.emit('restore',nachricht)
         });
     });    
+});
+socket.on('gameList', function(msg){
+    spielAuswahl = msg;
+    $('#spielAuswahl').html('');
+    for(var i = 0; i < spielAuswahl.length; i++){
+        $('#spielAuswahl').append('<li><a class="spiel">' + spielAuswahl[i] + '</a></li>');   
+    }
+    $('.spiel').on('click',function(){
+        $('#spielAuswahl').css('display','none');
+        $('#button').css('left','15%');
+        $('#angriffButton').css('display','none');
+        $('.spiel').off('click');
+        nachricht['gamename'] = $(this).html();
+        setCookie('gamename',nachricht['gamename'],4)
+        socket.emit('restore',nachricht)
+    });
 });
 if(document.cookie){
     Username = getCookie('Username');
@@ -260,17 +299,31 @@ socket.on('westeros', function(msg) {
             $('#button').css('left','15%');
             $('#hostPage').css('display','block');
             $('#hostInputs').css('display','block');
+            $('#spielerposition').css('display','block');
+            $('#rabe').css('display','block');
+            $('#spielerpositionLabel').css('display','block');
+            $('#rabeLabel').css('display','block');
             $('#footerHost').css('display','block');
-            $('#spielerposition').css('display','none');
+            $('#hostButton').html('Änderungen übernehmen')
             $('#hostButton').on('click', function(){
+                
                 // Diese Funktion muss noch richtig implementirert werden
+                
                 $('#hostButton').off('click');
+                $('#hostInputs').css('display','none');
+                $('#spielerposition').css('display','none');
+                $('#rabe').css('display','none');
+                $('#spielerpositionLabel').css('display','none');
+                $('#rabeLabel').css('display','none');
                 $('#hostPage').css('display','none');
+                
                 nachricht['message']['change'] = true;
-                nachricht['message']['rabe'] = 'Baratheon';
-                nachricht['message']['reihenfolge'] = ['Lannister','Baratheon'];
+                nachricht['message']['rabe'] = $('#rabe').val();
+                var charString = String($('#spielerposition').val());
+                console.log(charString)
+                nachricht['message']['reihenfolge'] = charString;
                 socket.emit('westerosEnde', nachricht)
-            })
+            });
         });
         $('#angriffButton').html('Keine Änderungen');
         $('#angriffButton').css('display','block');

@@ -1,18 +1,4 @@
 {
     "Spieler": {
-        "Fas": {
-            "2018-11-7": {
-                "Befehlsmarker legen": 2.5,
-                "Machtmarker nehmen": 1.5,
-                "Marschausführen": 1
-            }
-        },
-        "fabs": {
-            "2018-11-7": {
-                "Befehlsmarker legen": 1.5,
-                "Machtmarker nehmen": 0,
-                "Marschausführen": 1.0
-            }
-        }
     }
 }

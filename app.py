@@ -20,11 +20,13 @@ socketio = SocketIO(app)
 
 @socketio.on('joining')
 def initializGame(data):
-    
     if data['gamename']:
         games[data['gamename']].initializeGame(data)
     else:
         emit('setGamename',list(games.keys()), broadcast = False)
+@socketio.on('reloadGames')
+def reloadGames(data):
+    emit('gameList',list(games.keys()), broadcast = False)
 @socketio.on('join')
 def on_join(data):
     games[data['gamename']].on_join(data)
@@ -56,6 +58,7 @@ def create_new_game(data):
     games[name] = Game(name, variant,numbOfPlayers,app,socketio)
 @socketio.on('westerosEnde')
 def westerosEnde(data):
+    print(data)
     games[data['gamename']].westerosphase(data)
 
 ### Spiel selbst starten mit name = game1

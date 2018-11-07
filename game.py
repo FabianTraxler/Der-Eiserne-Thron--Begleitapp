@@ -6,6 +6,7 @@ import json
 # time is used to get the current time
 import time
 import datetime
+
 # User Klasse anlegen
 class User:
     def __init__(self):
@@ -34,7 +35,7 @@ class User:
         self.name = name
 
 
-class Game:
+class Game: 
     # Spiel initialisieren
     def __init__(self,gamename, game_variant, numb_of_players, socketApp, socketIO):
         #Spielnamen initialisieren
@@ -86,6 +87,14 @@ class Game:
                 self.rabe = self.haus
         self.app = socketApp
         self.socketio = socketIO
+        self.charToHouse = {
+            'B': "Baratheon",
+            'L':"Lannister",
+            "S": "Stark",
+            "M":"Martell",
+            "G":"Greyjoy",
+            "T":"Tyrell"
+        }
         date = datetime.datetime.now()
         self.today = str(date.year) +'-'+str(date.month) +'-'+str(date.day)
     
@@ -108,7 +117,6 @@ class Game:
             "Zeit": zeit,
             'Geschehen':''
         }
-        print(self.timer)
         self.timerStart = time.time()
         if(betroffener != 'Alle'):
                 self.timer["Geschehen"] = self.spiel['Spieler'][betroffener]['User'].name + ' ist am Zug!'
@@ -193,7 +201,7 @@ class Game:
     def westerosphase(self,data):
         if data['message']['change']:
             self.rabe = data['message']['rabe']
-            self.reihenfolge = data['message']['reihenfolge']
+            self.reihenfolge = [ self.charToHouse[x] for x in data['message']['reihenfolge'].split() ]
         self.AmZugReihenfolgeDurchgang = 0
         self.spielrunde +=1
         self.startRound(self.spielrunde)
