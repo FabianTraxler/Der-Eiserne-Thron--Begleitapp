@@ -76,10 +76,10 @@ class Game:
 
         # Alle Spieler initialisieren und festlegen wer der Rabe ist
         self.rabenleistePositionen = []
-        for self.haus in self.spielbareHauser:
-            self.spiel['Spieler'][self.haus]['User'] = User()
-            self.rabenleistePositionen.append(self.spiel['Spieler'][self.haus]['PositionenNormal']['Königshof'])
-            self.gelegteMarschbefehle[self.haus] = 0
+        for haus in self.spielbareHauser:
+            self.spiel['Spieler'][haus]['User'] = User()
+            self.rabenleistePositionen.append(self.spiel['Spieler'][haus]['PositionenNormal']['Königshof'])
+            self.gelegteMarschbefehle[haus] = 0
         self.rabenPosition = min(tuple(self.rabenleistePositionen))
         # Den Raben ermitteln (Rabe = Haus mit der niedrigsten Position auf der Königshofleiste)
         for self.haus in self.spielbareHauser:

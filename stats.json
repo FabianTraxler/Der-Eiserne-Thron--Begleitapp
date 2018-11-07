@@ -1,4 +1,18 @@
 {
     "Spieler": {
+        "Favsl": {
+            "2018-11-7": {
+                "Befehlsmarker legen": 8,
+                "Machtmarker nehmen": 5,
+                "Marschausführen": 6
+            }
+        },
+        "fabs": {
+            "2018-11-7": {
+                "Befehlsmarker legen": 9,
+                "Machtmarker nehmen": 4,
+                "Marschausführen": 0
+            }
+        }
     }
 }
