@@ -7,6 +7,20 @@
                 "Marschausführen": 6
             }
         },
+        "Fff": {
+            "2018-11-8": {
+                "Befehlsmarker legen": 5,
+                "Machtmarker nehmen": 3,
+                "Marschausführen": 5
+            }
+        },
+        "bn": {
+            "2018-11-8": {
+                "Befehlsmarker legen": 4,
+                "Machtmarker nehmen": 1,
+                "Marschausführen": 2
+            }
+        },
         "fabs": {
             "2018-11-7": {
                 "Befehlsmarker legen": 9,

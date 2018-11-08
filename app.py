@@ -7,10 +7,10 @@ from game import Game
 # Flask is used as the websocket in order to communicate with all clients
 from flask import Flask, render_template
 from flask_socketio import SocketIO, join_room, emit
-
+import threading
 #socket to get the IP Adresse of the Server
 import socket
-
+import code
 games = {}
 # Soketverbing starten auf Port 9191 
 IP = (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) + ["no IP found"])[0]
@@ -66,4 +66,8 @@ def westerosEnde(data):
 # IP Adresse des Server mit socket auslesen
 if __name__ == '__main__':
     #create_new_game({'name':'test','variant':'normal','numb':'2'})
-    socketio.run(app, host=IP, port='9191')
+    def socketthread():
+        socketio.run(app, host=IP, port='9191')
+    thread = threading.Thread(target=socketthread, args=())
+    thread.daemon = True                            # Daemonize thread
+    thread.start() 
