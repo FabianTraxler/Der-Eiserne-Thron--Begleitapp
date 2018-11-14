@@ -28,6 +28,25 @@ function displayFertig(hausliste){
         $('#'+hausliste[i]).append("<div class='hausWarten'></div>");
     }
 }
+function resetCookies_variables(){
+    eraseCookie('Username');
+    eraseCookie('gamename');
+    eraseCookie('host');
+    varUsername = '';
+    varUserHaus = '';
+    varUserNames = [];
+    vargamename = '';
+    varhost = false;
+    varnachricht = {
+        'gamename': '',
+        'Name':'',
+        'Haus':'',
+        'message':''
+    };
+    x;
+    nochNichtFertig = [];
+    window.location.reload(false); 
+}
 function resetNochNichtFertig(){
     $('.container').html('');
     for(var i=0; i <nochNichtFertig.length;i++){
