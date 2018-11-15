@@ -310,7 +310,6 @@ class Game:
         except:
             pass
         self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig)
-        print(self.alleBereit('Beigetreten'))
         if(self.alleBereit('Beigetreten')):
             self.Spielschritt = 'Joined'
             self.sendMessage('joined','Alle')
@@ -432,6 +431,7 @@ class Game:
     def restoreSession(self, data):
             print(str(data['Name']) + ' >>> restoring session ...')
             message = {
+                'User':data['Name'],
                 'Haus':'',
                 'Hausliste':self.spielbareHauser,
                 'Userliste' : self.usernames
@@ -442,7 +442,7 @@ class Game:
                     emit('restoreHaus',message, broadcast = False)
             if not message['Haus']:
                 print(str(data['Name']) + ' noch nicht im Spiel >>> Neuen Spieler anlegen')
-                emit('reconnect','',broadcast = False)
+                self.sendMessage('initialize',message)
     def restoreSchritt(self, data):
             print('restoreSchritt')
             self.neuenSpielerAktualisieren(data['Haus'])

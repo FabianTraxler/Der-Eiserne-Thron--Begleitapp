@@ -1,5 +1,19 @@
 {
     "Spieler": {
+        "Fabsl": {
+            "2018-11-15": {
+                "Befehlsmarker legen": 1,
+                "Machtmarker nehmen": 2,
+                "Marschausführen": 0
+            }
+        },
+        "Faha": {
+            "2018-11-15": {
+                "Befehlsmarker legen": 11,
+                "Machtmarker nehmen": 2,
+                "Marschausführen": 1
+            }
+        },
         "Favsl": {
             "2018-11-7": {
                 "Befehlsmarker legen": 8,
@@ -14,6 +28,20 @@
                 "Marschausführen": 5
             }
         },
+        "Hansl": {
+            "2018-11-15": {
+                "Befehlsmarker legen": 3.25,
+                "Machtmarker nehmen": 1.25,
+                "Marschausführen": 1
+            }
+        },
+        "asdf": {
+            "2018-11-15": {
+                "Befehlsmarker legen": 10,
+                "Machtmarker nehmen": 1,
+                "Marschausführen": 1
+            }
+        },
         "bn": {
             "2018-11-8": {
                 "Befehlsmarker legen": 4,
@@ -25,6 +53,13 @@
             "2018-11-7": {
                 "Befehlsmarker legen": 9,
                 "Machtmarker nehmen": 4,
+                "Marschausführen": 0
+            }
+        },
+        "fasd": {
+            "2018-11-15": {
+                "Befehlsmarker legen": 2,
+                "Machtmarker nehmen": 1,
                 "Marschausführen": 0
             }
         }

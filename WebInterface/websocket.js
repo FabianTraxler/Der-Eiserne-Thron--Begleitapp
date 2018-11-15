@@ -5,7 +5,8 @@ var attack = new Audio("tones/silence.mp3");
 var countdown = new Audio("tones/silence.mp3");
 var chaChing = new Audio("tones/silence.mp3");
 var befehleStart = new Audio("tones/silence.mp3");
-
+resetCookies_variables();
+console.log(document.cookie)
 var spielAuswahl = [];
 function enableNoSleep() {
     dong.play();
@@ -48,6 +49,14 @@ function getCookie(name) {
 function eraseCookie(name) {   
     document.cookie = name+'=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';  
 }
+function eraseAllCookies(){
+    var theCookies = document.cookie.split(';');
+    for(var i = 0; i <  theCookies.length; i++){
+        var name = theCookies[i].split('=')[0]
+        console.log(name)
+        eraseCookie(theCookies[i])
+    }
+}
 var socket = io.connect('http://' + window.location.hostname + ':9191');
 //socket.emit('pong','');
 //socket.on('ping',function(){
@@ -55,7 +64,7 @@ var socket = io.connect('http://' + window.location.hostname + ':9191');
     //socket.emit('pong','');
 //});
 // verify our websocket connection is established
-//eraseCookie('Username');
+
 socket.on('setGamename', function(msg){
     spielAuswahl = msg;
     $('#loadingDisplay').css('display','none');
@@ -91,16 +100,16 @@ socket.on('setGamename', function(msg){
             $('#hostButton').off('click');
             console.log('Spiel hosten')
             $('#hostPage').css('display','none');
+            gamename = $('#spielname').val();
             message = {
-                'name':$('#spielname').val(),
+                'name':gamename,
                 'variant':$('#variant').val(),
                 'numb':$('#spieleranzahl').val()
             }
             socket.emit('host', message);
-            gamename = $('#spielname').val();
-            nachricht['gamename'] = $('#spielname').val();
-            setCookie('gamename',nachricht['gamename'],4)
-            socket.emit('restore',nachricht)
+            nachricht['gamename'] = gamename;
+            setCookie('gamename',nachricht['gamename'],4);
+            setTimeout(function(){ socket.emit('restore',nachricht); }, 500);
         })
     });
     $('#angriffButton').html('Beitreten');
@@ -153,7 +162,7 @@ socket.on('gameList', function(msg){
         socket.emit('restore',nachricht)
     });
 });
-if(document.cookie){
+if(document.cookie.includes('Username') && document.cookie.includes('gamename') && document.cookie.includes('host')){
     Username = getCookie('Username');
     gamename = getCookie('gamename');
     host = getCookie('host');
@@ -190,8 +199,9 @@ if(document.cookie){
     });
 }else{
     socket.on('connect', function() {
+        resetCookies_variables();
         $('#loadingDisplay').css('display','none');
-        console.log('Websocket connected!');
+        console.log('Websocket connected! 1');
         $('#anzeige').html('Username eingeben!');
         $('#input').css('display','block').attr('placeholder','John Snow');
         $('#button').css('display','block').html('Senden');

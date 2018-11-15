@@ -20,10 +20,7 @@ socketio = SocketIO(app)
 
 @socketio.on('joining')
 def initializGame(data):
-    if data['gamename']:
-        games[data['gamename']].initializeGame(data)
-    else:
-        emit('setGamename',list(games.keys()), broadcast = False)
+    emit('setGamename',list(games.keys()), broadcast = False)
 @socketio.on('reloadGames')
 def reloadGames(data):
     emit('gameList',list(games.keys()), broadcast = False)
@@ -67,7 +64,7 @@ def westerosEnde(data):
 if __name__ == '__main__':
     #create_new_game({'name':'test','variant':'normal','numb':'2'})
     def socketthread():
-        socketio.run(app, host=IP, port='9191')
+        socketio.run(app, host=IP, port=9191)
     thread = threading.Thread(target=socketthread, args=())
     thread.daemon = True                            # Daemonize thread
     thread.start() 

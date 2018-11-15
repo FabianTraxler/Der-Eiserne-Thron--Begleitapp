@@ -45,7 +45,6 @@ function resetCookies_variables(){
     };
     x;
     nochNichtFertig = [];
-    window.location.reload(false); 
 }
 function resetNochNichtFertig(){
     $('.container').html('');
@@ -73,6 +72,7 @@ function saveHaus(){
     $('.haus').off('click',saveHaus);
     UserHaus = $(this).html();
     nachricht['Haus'] = UserHaus;
+    setCookie('Haus', UserHaus);
     $(this).remove();
     $('.container').css('opacity',1)
     var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';
@@ -96,7 +96,6 @@ function saveName(){
     nachricht['Name'] = Username;
     setCookie('Username',Username,4);
     socket.emit('joining', nachricht);
-    $('#anzeige').html('Haus wählen!');
     $('#input').css('display','none');
     $('#input').css('display','none');
     $('#button').css('display','none').html('');
