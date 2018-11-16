@@ -64,6 +64,9 @@ var socket = io.connect('http://' + window.location.hostname + ':9191');
 // verify our websocket connection is established
 
 socket.on('setGamename', function(msg){
+    eraseCookie('gamename');
+    eraseCookie('host');
+    eraseCookie('Haus');
     spielAuswahl = msg;
     $('#loadingDisplay').css('display','none');
     console.log('Websocket connected!');
@@ -186,14 +189,6 @@ if(document.cookie.includes('Username') && document.cookie.includes('gamename') 
         
         createHausauswahl(msg.Hausliste);
         socket.emit('restoreSpielschritt',nachricht);
-    });
-    socket.on('reconnect', function() {
-        $('#loadingDisplay').css('display','none');
-        console.log('Game loaded!');
-        $('#anzeige').html('Username eingeben!');
-        $('#input').css('display','block').attr('placeholder','John Snow');
-        $('#button').css('display','block').html('Senden');
-        $('#button').on('click',saveName);
     });
 }else{
     socket.on('connect', function() {
