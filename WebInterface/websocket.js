@@ -5,8 +5,6 @@ var attack = new Audio("tones/silence.mp3");
 var countdown = new Audio("tones/silence.mp3");
 var chaChing = new Audio("tones/silence.mp3");
 var befehleStart = new Audio("tones/silence.mp3");
-resetCookies_variables();
-console.log(document.cookie)
 var spielAuswahl = [];
 function enableNoSleep() {
     dong.play();
