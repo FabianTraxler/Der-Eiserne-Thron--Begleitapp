@@ -1,10 +1,22 @@
 {
     "Spieler": {
+        "Fabian": {
+            "2018-11-24": {
+                "Befehlsmarker legen": 4.0,
+                "Machtmarker nehmen": 1.0,
+                "Marschausführen": 3.0
+            }
+        },
         "Fabsl": {
             "2018-11-15": {
                 "Befehlsmarker legen": 1,
                 "Machtmarker nehmen": 2,
                 "MarschausfÃ¼hren": 0
+            },
+            "2018-11-24": {
+                "Befehlsmarker legen": 8.5,
+                "Machtmarker nehmen": 1.5,
+                "Marschausführen": 0
             }
         },
         "Faha": {
