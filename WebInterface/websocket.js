@@ -159,11 +159,13 @@ socket.on('gameList', function(msg){
         $('#angriffButton').css('display','none');
         $('.spiel').off('click');
         nachricht['gamename'] = $(this).html();
+        gamename = nachricht['gamename']
         setCookie('gamename',nachricht['gamename'],4)
         socket.emit('restore',nachricht)
     });
 });
 if(document.cookie.includes('Username') && document.cookie.includes('gamename') && document.cookie.includes('host')){
+    console.log('Cookies detected')
     Username = getCookie('Username');
     gamename = getCookie('gamename');
     host = getCookie('host');
@@ -191,6 +193,7 @@ if(document.cookie.includes('Username') && document.cookie.includes('gamename') 
         socket.emit('restoreSpielschritt',nachricht);
     });
 }else{
+    console.log('No Cookies detected')
     socket.on('connect', function() {
         resetCookies_variables();
         $('#loadingDisplay').css('display','none');
