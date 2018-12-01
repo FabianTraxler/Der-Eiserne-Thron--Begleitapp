@@ -30,6 +30,7 @@ function displayFertig(hausliste){
 }
 function resetCookies_variables(){
     eraseCookie('Username');
+    eraseCookie('Haus');
     eraseCookie('gamename');
     eraseCookie('host');
     varUsername = '';
@@ -90,11 +91,18 @@ function restoreHaus(haus){
     var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';
     $('#wrapper').css('background-image', bildURL)
 }
-
+function askName(){
+    resetCookies_variables();
+    $('#loadingDisplay').css('display','none');            
+    $('#anzeige').html('Username eingeben!');
+    $('#input').css('display','block').attr('placeholder','John Snow');
+    $('#button').css('display','block').html('Senden');
+    $('#button').on('click',saveName);
+}
 function saveName(){
     Username = $('#input').val();
     nachricht['Name'] = Username;
-    setCookie('Username',Username,4);
+    setCookie('Username',Username, null);
     socket.emit('joining', nachricht);
     $('#input').css('display','none');
     $('#input').css('display','none');
@@ -135,7 +143,7 @@ function befehlsmarkerStart(sekunden){
             marschbefehle +=1;
             $('#angriffButton').html(marschbefehle);
         }else{
-            marschbefehle =1;
+            marschbefehle =0;
             $('#angriffButton').html(marschbefehle);
         } 
     });

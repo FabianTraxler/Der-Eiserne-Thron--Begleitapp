@@ -31,8 +31,11 @@ function setCookie(name,value,hours) {
         var date = new Date();
         date.setTime(date.getTime() + (hours*60*60*1000));
         expires = "; expires=" + date.toUTCString();
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }else{
+        document.cookie = name + "=" + (value || "")  +  "; path=/";
     }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+   
 }
 function getCookie(name) {
     var nameEQ = name + "=";
@@ -55,21 +58,74 @@ function eraseAllCookies(){
         eraseCookie(theCookies[i])
     }
 }
+
 var socket = io.connect('http://' + window.location.hostname + ':9191');
-//socket.emit('pong','');
-//socket.on('ping',function(){
-    //console.log('PING');
-    //socket.emit('pong','');
-//});
-// verify our websocket connection is established
+socket.emit('syn','')
+console.log('syn')
+socket.on('ack',function(){
+    console.log('Websocket connected!')
+    if(document.cookie.includes('Username') && document.cookie.includes('gamename') && document.cookie.includes('host')){
+        console.log('Cookies detected')
+        Username = getCookie('Username');
+        gamename = getCookie('gamename');
+        host = getCookie('host');
+        $('#input').val(Username);
+        nachricht['gamename'] = gamename;
+        nachricht['Name'] = Username;
+        socket.emit('restore',nachricht);
+        $('#loadingDisplay').css('display','none');
+        socket.on('restoreHaus', function(msg){
+            UserHaus = msg.Haus;
+            saveUsernames(msg.Userliste)
+            nachricht['Haus'] = UserHaus;
+            $('.container').css('opacity',1);
+            var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';
+            $('#wrapper').css('background-image', bildURL);
+            createNochNichtFertig(msg.Hausliste);
+            hausliste = msg.Hausliste;
+            var index = hausliste.indexOf(UserHaus);
+            if (index !== -1){
+                hausliste.splice(index, 1);
+            } 
+            
+            createHausauswahl(msg.Hausliste);
+            socket.emit('restoreSpielschritt',nachricht);
+        });
+    }else{
+        console.log('No Cookies detected')
+        if(document.cookie.includes('Username')){
+            console.log('Username gefunden')
+            $('#loadingDisplay').css('display','none');            
+            $('#anzeige').html(getCookie('Username') + ', bist du es? ' + String.fromCodePoint(0x1F632));
+            $('#button').css('left','0')
+            $('#button').css('display','block').html('Na sicher doch!');
+            $('#button').on('click',function(){
+                nachricht['Name'] = getCookie('Username');
+                socket.emit('joining', nachricht);
+                $('#input').css('display','none');
+                $('#input').css('display','none');
+                $('#button').css('display','none').html('');
+                $('#button').off('click');
+            });
+            $('#angriffButton').css('display','block')
+            $('#angriffButton').html('Neu');
+            $('#angriffButton').on('click',function(){
+                $('#angriffButton').off('click')
+                askName()
+            });
+        }else{
+            askName()
+        }
+    }
+})
+
+
 
 socket.on('setGamename', function(msg){
     eraseCookie('gamename');
     eraseCookie('host');
     eraseCookie('Haus');
     spielAuswahl = msg;
-    $('#loadingDisplay').css('display','none');
-    console.log('Websocket connected!');
     $('#anzeige').html('Spiel hosten oder beitreten?');
     $('#button').css('left','0')
     $('#button').css('display','block').html('Spiel hosten');
@@ -164,51 +220,12 @@ socket.on('gameList', function(msg){
         socket.emit('restore',nachricht)
     });
 });
-if(document.cookie.includes('Username') && document.cookie.includes('gamename') && document.cookie.includes('host')){
-    console.log('Cookies detected')
-    Username = getCookie('Username');
-    gamename = getCookie('gamename');
-    host = getCookie('host');
-    $('#input').val(Username);
-    
-    nachricht['gamename'] = gamename;
-    nachricht['Name'] = Username;
-    socket.emit('restore',nachricht);
-    socket.on('restoreHaus', function(msg){
-        $('#loadingDisplay').css('display','none');
-        UserHaus = msg.Haus;
-        saveUsernames(msg.Userliste)
-        nachricht['Haus'] = UserHaus;
-        $('.container').css('opacity',1);
-        var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';
-        $('#wrapper').css('background-image', bildURL);
-        createNochNichtFertig(msg.Hausliste);
-        hausliste = msg.Hausliste;
-        var index = hausliste.indexOf(UserHaus);
-        if (index !== -1){
-            hausliste.splice(index, 1);
-        } 
-        
-        createHausauswahl(msg.Hausliste);
-        socket.emit('restoreSpielschritt',nachricht);
-    });
-}else{
-    console.log('No Cookies detected')
-    socket.on('connect', function() {
-        resetCookies_variables();
-        $('#loadingDisplay').css('display','none');
-        console.log('Websocket connected! 1');
-        $('#anzeige').html('Username eingeben!');
-        $('#input').css('display','block').attr('placeholder','John Snow');
-        $('#button').css('display','block').html('Senden');
-        $('#button').on('click',saveName);
-    });
-}
+
 
 socket.on('initialize',function(msg){
     spielschritt = 1;
     console.log('initialize');
-    if(msg.message.User == Username){
+    if(msg.message.User == nachricht['Name']){
         createHausauswahl(msg.message.Hausliste);
         showHausauswahl();
         createNochNichtFertig(msg.message.Hausliste);

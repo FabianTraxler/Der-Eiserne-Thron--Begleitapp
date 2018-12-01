@@ -17,7 +17,9 @@ IP = (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-
+@socketio.on('syn')
+def connect(data):
+    emit('ack','', broadcast = False)
 @socketio.on('joining')
 def initializGame(data):
     emit('setGamename',list(games.keys()), broadcast = False)
@@ -44,6 +46,7 @@ def restoreSchritt(data):
     games[data['gamename']].restoreSchritt(data)
 @socketio.on('anzahlBefehlsmarker')
 def anzahlBefehlsmarkerAktualisieren(data):
+    print(data)
     games[data['gamename']].anzahlBefehlsmarkerAktualisieren(data)
 @socketio.on('host')
 def create_new_game(data):
@@ -52,15 +55,13 @@ def create_new_game(data):
     name = data['name']
     variant = data['variant']
     numbOfPlayers = data['numb']
-    games[name] = Game(name, variant,numbOfPlayers,app,socketio)
+    games[name] = Game(name, variant,numbOfPlayers)
 @socketio.on('westerosEnde')
 def westerosEnde(data):
     print(data)
     games[data['gamename']].westerosphase(data)
 
-### Spiel selbst starten mit name = game1
-# game1 = Game('normal','2', socket)
-# IP Adresse des Server mit socket auslesen
+### Spiel selbst starten mit game[__Name__des__Spiels__] = Game(name, variant, numbOfPlayers)
 if __name__ == '__main__':
     #create_new_game({'name':'test','variant':'normal','numb':'2'})
     def socketthread():

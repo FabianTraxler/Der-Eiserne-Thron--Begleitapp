@@ -4,7 +4,14 @@
             "2018-11-24": {
                 "Befehlsmarker legen": 4.0,
                 "Machtmarker nehmen": 1.0,
-                "Marschausf�hren": 3.0
+                "Marschausf�hren": 3.0
+            }
+        },
+        "Fabs": {
+            "2018-12-1": {
+                "Befehlsmarker legen": 2,
+                "Machtmarker nehmen": 1,
+                "Marschausführen": 2
             }
         },
         "Fabsl": {
@@ -16,7 +23,12 @@
             "2018-11-24": {
                 "Befehlsmarker legen": 8.5,
                 "Machtmarker nehmen": 1.5,
-                "Marschausf�hren": 0
+                "Marschausf�hren": 0
+            },
+            "2018-12-1": {
+                "Befehlsmarker legen": 4.0,
+                "Machtmarker nehmen": 1,
+                "Marschausführen": 1.0
             }
         },
         "Faha": {
@@ -26,11 +38,25 @@
                 "Marschausführen": 1
             }
         },
+        "Fahs": {
+            "2018-12-1": {
+                "Befehlsmarker legen": 6,
+                "Machtmarker nehmen": 1,
+                "Marschausführen": 0
+            }
+        },
         "Favsl": {
             "2018-11-7": {
                 "Befehlsmarker legen": 8,
                 "Machtmarker nehmen": 5,
                 "Marschausführen": 6
+            }
+        },
+        "Ff": {
+            "2018-11-24": {
+                "Befehlsmarker legen": 2.25,
+                "Machtmarker nehmen": 0.75,
+                "Marschausführen": 1.125
             }
         },
         "Fff": {
@@ -52,6 +78,11 @@
                 "Befehlsmarker legen": 10,
                 "Machtmarker nehmen": 1,
                 "Marschausführen": 1
+            },
+            "2018-12-1": {
+                "Befehlsmarker legen": 3.5,
+                "Machtmarker nehmen": 0.5,
+                "Marschausführen": 0.75
             }
         },
         "bn": {
@@ -73,6 +104,13 @@
                 "Befehlsmarker legen": 2,
                 "Machtmarker nehmen": 1,
                 "Marschausführen": 0
+            }
+        },
+        "fasdf": {
+            "2018-11-24": {
+                "Befehlsmarker legen": 3.25,
+                "Machtmarker nehmen": 1.0,
+                "Marschausführen": 1.5
             }
         }
     }

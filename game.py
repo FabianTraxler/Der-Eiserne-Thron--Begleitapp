@@ -37,7 +37,7 @@ class User:
 
 class Game: 
     # Spiel initialisieren
-    def __init__(self,gamename, game_variant, numb_of_players, socketApp, socketIO):
+    def __init__(self,gamename, game_variant, numb_of_players):
         #Spielnamen initialisieren
         self.name = gamename
         # Spielkonfiguaration laden
@@ -85,8 +85,6 @@ class Game:
         for self.haus in self.spielbareHauser:
             if(self.rabenPosition == self.spiel['Spieler'][self.haus]['PositionenNormal']['konigshof']):
                 self.rabe = self.haus
-        self.app = socketApp
-        self.socketio = socketIO
         self.charToHouse = {
             'B': "Baratheon",
             'L':"Lannister",
