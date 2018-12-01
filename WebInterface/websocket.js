@@ -27,15 +27,14 @@ $('#button').on('click',enableNoSleep);
 // (must be wrapped in a user input event handler e.g. a mouse or touch handler)
 function setCookie(name,value,hours) {
     var expires = "";
-    if (hours) {
-        var date = new Date();
-        date.setTime(date.getTime() + (hours*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-        document.cookie = name + "=" + (value || "")  + expires + "; domain=hobbit.local; path=/";
-    }else{
-        document.cookie = name + "=" + (value || "")  +  "; domain=hobbit.local; path=/";
+    console.log(hours)
+    if (parseInt(hours)) {
+        var duration = hours * 60 * 60
+        expires = "; max-age=" + String(duration);
     }
-   
+    var cookie =  name + "=" + value  + expires + "; path=/";
+    console.log(cookie)
+    document.cookie = cookie;
 }
 function getCookie(name) {
     var nameEQ = name + "=";
