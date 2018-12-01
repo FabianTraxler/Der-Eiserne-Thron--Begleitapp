@@ -26,8 +26,7 @@ $('#button').on('click',enableNoSleep);
 // Enable wake lock.
 // (must be wrapped in a user input event handler e.g. a mouse or touch handler)
 function setCookie(name,value,hours) {
-    var expires = "";
-    console.log(hours)
+    var expires = "; max-age=9999999999999999";
     if (parseInt(hours)) {
         var duration = hours * 60 * 60
         expires = "; max-age=" + String(duration);
