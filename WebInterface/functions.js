@@ -102,7 +102,7 @@ function askName(){
 function saveName(){
     Username = $('#input').val();
     nachricht['Name'] = Username;
-    setCookie('Username',Username, 4);
+    setCookie('Username',Username, null);
     socket.emit('joining', nachricht);
     $('#input').css('display','none');
     $('#input').css('display','none');
