@@ -31,9 +31,9 @@ function setCookie(name,value,hours) {
         var date = new Date();
         date.setTime(date.getTime() + (hours*60*60*1000));
         expires = "; expires=" + date.toUTCString();
-        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        document.cookie = name + "=" + (value || "")  + expires + "; domain=hobbit.local; path=/";
     }else{
-        document.cookie = name + "=" + (value || "")  +  "; path=/";
+        document.cookie = name + "=" + (value || "")  +  "; domain=hobbit.local; path=/";
     }
    
 }
