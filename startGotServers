@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cd /Users/Fabian/Projekte/Der-Eiserne-Thron--Begleitapp/WebInterface/
-
-python -m http.server 80 &
-cd .. 
-python -i app.py
