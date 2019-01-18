@@ -102,7 +102,7 @@ class Game:
             'Haus': 'admin',
             'message': Nachricht
         }
-        emit(ID,self.nachricht, broadcast = broadcast)
+        emit(ID,self.nachricht, broadcast = broadcast, room=self.name)
     
     def updateStatusAlle(self,status):
         for self.haus in self.spielbareHauser:
@@ -166,7 +166,7 @@ class Game:
         elif(self.Spielschritt =='Westeros'):
             self.sendMessage('westeros','Westerosphase beginnt!', broadcast=False)
         print('---------------------')
-        print('self.Spielschritt ' + self.Spielschritt + ' wiederhergestellt!')
+        print('Spielschritt ' + self.Spielschritt + ' wiederhergestellt!')
         print('---------------------')
 
     def updateStats(self, haus, status, zeit):
@@ -196,7 +196,7 @@ class Game:
             for spielzug in daten.keys():
                 self.stats['Spieler'][user][self.today][spielzug] = daten[spielzug]
     #Funktionen die nacheinandern (verkehrte Reihenfolge) durchgeführt werden
-    def westerosphase(self,data):
+    def westerosphaseEnde(self,data):
         if data['message']['change']:
             self.rabe = data['message']['rabe']
             self.reihenfolge = [ self.charToHouse[x] for x in data['message']['reihenfolge'].split() ]
@@ -437,7 +437,7 @@ class Game:
             for haus in self.spielbareHauser:
                 if(self.spiel['Spieler'][haus]['User'].name == data['Name']):
                     message['Haus'] = haus
-                    emit('restoreHaus',message, broadcast = False)
+                    emit('restoreHaus',message, broadcast = False, room=self.name)
             if not message['Haus']:
                 print(str(data['Name']) + ' noch nicht im Spiel >>> Neuen Spieler anlegen')
                 self.sendMessage('initialize',message)

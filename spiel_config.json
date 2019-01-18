@@ -1,9 +1,9 @@
 {   
     "Spieler":{
-        "Baratheon":{
+        "Bolton":{
             "User": "",
             "PositionenNormal":{
-                "Thronfolge":1,
+                "Thronfolge":12,
                 "Lehenleiste":5,
                 "konigshof":4
             },            
@@ -12,7 +12,7 @@
         "Lannister":{
             "User": "",
             "PositionenNormal":{
-                "Thronfolge":2,
+                "Thronfolge":8,
                 "Lehenleiste":6,
                 "konigshof":3
             },
@@ -21,7 +21,7 @@
         "Stark":{
             "User": "",
             "PositionenNormal":{
-                "Thronfolge":3,
+                "Thronfolge":11,
                 "Lehenleiste":4,
                 "konigshof":2
             },
@@ -30,7 +30,7 @@
         "Martell":{
             "User": "",
             "PositionenNormal":{
-                "Thronfolge":4,
+                "Thronfolge":10,
                 "Lehenleiste":3,
                 "konigshof":2
             },
@@ -39,7 +39,7 @@
         "Greyjoy":{
             "User": "",
             "PositionenNormal":{
-                "Thronfolge":5,
+                "Thronfolge":7,
                 "Lehenleiste":6,
                 "konigshof":1
             },
@@ -49,6 +49,69 @@
             "User": "",
             "PositionenNormal":{
                 "Thronfolge":6,
+                "Lehenleiste":2,
+                "konigshof":5
+            },
+            "Status":""
+        },
+        "DTagaryen":{
+            "User": "",
+            "PositionenNormal":{
+                "Thronfolge":3,
+                "Lehenleiste":5,
+                "konigshof":4
+            },            
+            "Status":""
+        },
+        "Tully":{
+            "User": "",
+            "PositionenNormal":{
+                "Thronfolge":5,
+                "Lehenleiste":6,
+                "konigshof":3
+            },
+            "Status":""
+        },
+        "Arryn":{
+            "User": "",
+            "PositionenNormal":{
+                "Thronfolge":4,
+                "Lehenleiste":4,
+                "konigshof":2
+            },
+            "Status":""
+        },
+        "ATagaryen":{
+            "User": "",
+            "PositionenNormal":{
+                "Thronfolge":9,
+                "Lehenleiste":3,
+                "konigshof":2
+            },
+            "Status":""
+        },
+        "SBaratheon":{
+            "User": "",
+            "PositionenNormal":{
+                "Thronfolge":2,
+                "Lehenleiste":6,
+                "konigshof":1
+            },
+            "Status":""
+        },
+        "Baratheon":{
+            "User": "",
+            "PositionenNormal":{
+                "Thronfolge":1,
+                "Lehenleiste":2,
+                "konigshof":5
+            },
+            "Status":""
+        },
+        "RBaratheon":{
+            "User": "",
+            "PositionenNormal":{
+                "Thronfolge":1,
                 "Lehenleiste":2,
                 "konigshof":5
             },
@@ -70,7 +133,7 @@
                 "4": ["Baratheon","Lannister","Stark","Greyjoy"],
                 "5": ["Baratheon","Lannister","Stark","Greyjoy","Tyrell"],
                 "6": ["Baratheon","Lannister","Stark","Martell","Greyjoy","Tyrell"],
-                "12": ["RBaratheon","SBaratheon","ATagaryen","Arryn","Tully","Tyrell","Greyjoy","Lannister","DTagaryen","Martell","Stark","Bolton"]
+                "12": ["Baratheon","SBaratheon","ATagaryen","Arryn","Tully","Tyrell","Greyjoy","Lannister","DTagaryen","Martell","Stark","Bolton"]
             },
             "mission":{
                 "vier": ["Baratheon","Lannister","Arryn","Stark"]

@@ -1,5 +1,45 @@
 {
     "Spieler": {
+        "Afg": {
+            "2019-1-18": {
+                "Befehlsmarker legen": 7.25,
+                "Machtmarker nehmen": 1.75,
+                "Marschausführen": 2.5
+            }
+        },
+        "Arbit": {
+            "2019-1-18": {
+                "Befehlsmarker legen": 17,
+                "Machtmarker nehmen": 1,
+                "Marschausführen": 1
+            }
+        },
+        "Fa": {
+            "2019-1-18": {
+                "Befehlsmarker legen": 3,
+                "Machtmarker nehmen": 1,
+                "Marschausführen": 2
+            }
+        },
+        "Fab": {
+            "2018-12-2": {
+                "Befehlsmarker legen": 37.0,
+                "Machtmarker nehmen": 15.5,
+                "Marschausführen": 3
+            },
+            "2018-12-6": {
+                "Befehlsmarker legen": 4,
+                "Machtmarker nehmen": 0,
+                "Marschausführen": 0
+            }
+        },
+        "Fabi": {
+            "2019-1-18": {
+                "Befehlsmarker legen": 13,
+                "Machtmarker nehmen": 3,
+                "Marschausführen": 5.0
+            }
+        },
         "Fabian": {
             "2018-11-24": {
                 "Befehlsmarker legen": 4.0,
@@ -12,6 +52,23 @@
                 "Befehlsmarker legen": 2,
                 "Machtmarker nehmen": 1,
                 "Marschausführen": 2
+            },
+            "2018-12-2": {
+                "Befehlsmarker legen": 40.0,
+                "Machtmarker nehmen": 1.5,
+                "Marschausführen": 1.5
+            },
+            "2019-1-18": {
+                "Befehlsmarker legen": 4.28125,
+                "Machtmarker nehmen": 1.0,
+                "Marschausführen": 0
+            }
+        },
+        "Fabsel": {
+            "2018-12-6": {
+                "Befehlsmarker legen": 3,
+                "Machtmarker nehmen": 3,
+                "Marschausführen": 0
             }
         },
         "Fabsl": {
@@ -50,6 +107,11 @@
                 "Befehlsmarker legen": 8,
                 "Machtmarker nehmen": 5,
                 "Marschausführen": 6
+            },
+            "2019-1-18": {
+                "Befehlsmarker legen": 9,
+                "Machtmarker nehmen": 4,
+                "Marschausführen": 7
             }
         },
         "Ff": {
@@ -64,6 +126,20 @@
                 "Befehlsmarker legen": 5,
                 "Machtmarker nehmen": 3,
                 "Marschausführen": 5
+            }
+        },
+        "Georg": {
+            "2019-1-18": {
+                "Befehlsmarker legen": 5,
+                "Machtmarker nehmen": 0,
+                "Marschausführen": 1
+            }
+        },
+        "Hans": {
+            "2019-1-18": {
+                "Befehlsmarker legen": 3.75,
+                "Machtmarker nehmen": 1.75,
+                "Marschausführen": 2.0
             }
         },
         "Hansl": {

@@ -281,12 +281,17 @@ label{
     font-family: 'Caveat Brush', serif;
 }
 #hausAuswahl{
+    z-index: 99;
     display: none;
     position: absolute;
     bottom: 0;
     width: 100%;
+    max-height: 100%;
     padding: 0;
     margin: 0;
+    overflow: scroll;
+    color: lightgray;
+    text-align: center;
 }
 #hausAuswahl li{
     list-style-type: none;
@@ -331,6 +336,12 @@ label{
     background-position: center center;
 
 }
+#RBaratheon{
+    background-image: url('Hauswappen/RBaratheon.jpg');
+    background-size: cover;
+    background-position: center center;
+
+}
 #Lannister{
     background-image: url('Hauswappen/Lannister.jpg');
     background-size: cover;
@@ -356,13 +367,52 @@ label{
     background-size: cover;
     background-position: center center;
 }
+#SBaratheon{
+    background-image: url('Hauswappen/SBaratheon.jpg');
+    background-size: cover;
+    background-position: center center;
 
+}
+#Tully{
+    background-image: url('Hauswappen/Tully.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+#Arryn{
+    background-image: url('Hauswappen/Arryn.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+#ATagaryen{
+    background-image: url('Hauswappen/ATagaryen.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+#DTagaryen{
+    background-image: url('Hauswappen/DTagaryen.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+#Bolton{
+    background-image: url('Hauswappen/Bolton.jpg');
+    background-size: cover;
+    background-position: center center;
+}
 .hausStatus{
     margin:0;
     margin-left: 2.5%;
     width: 30%;
     height: 100%;
     border-radius: 10px;
+    overflow: hidden;
+    float: left;
+}
+.hausStatusBig{
+    margin:0;
+    margin-left: 2.5%;
+    width: 20%;
+    height: 100%;
+    border-radius: 6px;
     overflow: hidden;
     float: left;
 }
@@ -386,6 +436,29 @@ label{
     top: 29%;
     width: 100%;
     height: 25%;
+}
+#containerBig{
+    position: relative;
+    width: 100%;
+    margin: 5px 0;
+}
+#container1{
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    height: 17%;
+}
+#container2{
+    position: absolute;
+    top: 21%;
+    width: 100%;
+    height: 17%;
+}
+#container3{
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    height: 17%;
 }
 @media screen and (max-width:321px){
     #wrapper{

@@ -1,3 +1,4 @@
+// Initialize all audios and store them in variable
 var noSleep = new NoSleep();
 var dong = new Audio("tones/silence.mp3");
 var weitermachen = new Audio("tones/silence.mp3");
@@ -5,7 +6,9 @@ var attack = new Audio("tones/silence.mp3");
 var countdown = new Audio("tones/silence.mp3");
 var chaChing = new Audio("tones/silence.mp3");
 var befehleStart = new Audio("tones/silence.mp3");
+//cretae variable for list of available games
 var spielAuswahl = [];
+// define function to enable no sleep functionallity for mobile devices
 function enableNoSleep() {
     dong.play();
     weitermachen.play();
@@ -22,204 +25,52 @@ function enableNoSleep() {
     noSleep.enable();
     $('#button').off('click',enableNoSleep);
 }
+// call function by clicking the first buttom, so noSleep gets activated
 $('#button').on('click',enableNoSleep);
-// Enable wake lock.
-// (must be wrapped in a user input event handler e.g. a mouse or touch handler)
-function setCookie(name,value,hours) {
-    var expires = "; max-age=9999999999999999";
-    if (parseInt(hours)) {
-        var duration = hours * 60 * 60
-        expires = "; max-age=" + String(duration);
-    }
-    var cookie =  name + "=" + value  + expires + "; path=/";
-    console.log(cookie)
-    document.cookie = cookie;
-}
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-function eraseCookie(name) {   
-    document.cookie = name+'=; max-age=0; path=/';  
-}
-function eraseAllCookies(){
-    var theCookies = document.cookie.split(';');
-    for(var i = 0; i <  theCookies.length; i++){
-        var name = theCookies[i].split('=')[0]
-        console.log(name)
-        eraseCookie(theCookies[i])
-    }
-}
 
+//connect to the Socket
 var socket = io.connect('http://' + window.location.hostname + ':9191');
-socket.emit('syn','')
-console.log('syn')
-socket.on('ack',function(){
+// First connection with the Server
+socket.on('connect',function(){
     console.log('Websocket connected!')
-    if(document.cookie.includes('Username') && document.cookie.includes('gamename') && document.cookie.includes('host')){
-        console.log('Cookies detected')
-        Username = getCookie('Username');
-        gamename = getCookie('gamename');
-        host = getCookie('host');
-        $('#input').val(Username);
-        nachricht['gamename'] = gamename;
-        nachricht['Name'] = Username;
-        socket.emit('restore',nachricht);
-        $('#loadingDisplay').css('display','none');
-        socket.on('restoreHaus', function(msg){
-            UserHaus = msg.Haus;
-            saveUsernames(msg.Userliste)
-            nachricht['Haus'] = UserHaus;
-            $('.container').css('opacity',1);
-            var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';
-            $('#wrapper').css('background-image', bildURL);
-            createNochNichtFertig(msg.Hausliste);
-            hausliste = msg.Hausliste;
-            var index = hausliste.indexOf(UserHaus);
-            if (index !== -1){
-                hausliste.splice(index, 1);
-            } 
-            
-            createHausauswahl(msg.Hausliste);
-            socket.emit('restoreSpielschritt',nachricht);
+    connected()
+})
+// Game in Progress and waiting for server to tell house
+socket.on('restoreHaus', function(msg){
+    if(msg.User == getCookie('Username')){
+        restoreHaus(msg);
+    }
+
+});
+// Game not in Progress
+socket.on('noGame', function(msg){
+    if(document.cookie.includes('Username')){
+        console.log('Found Username')
+        $('#loadingDisplay').css('display','none');            
+        $('#anzeige').html(getCookie('Username') + ', bist du es? ' + String.fromCodePoint(0x1F632));
+        $('#button').css('left','0')
+        $('#button').css('display','block').html('Na sicher doch!');
+        $('#button').on('click',function(){
+            nachricht['Name'] = getCookie('Username');
+            setGamename(msg)
+        });
+        $('#angriffButton').css('display','block')
+        $('#angriffButton').html('Nein');
+        $('#angriffButton').on('click',function(){
+            $('#angriffButton').off('click');
+            askName();
         });
     }else{
-        console.log('No Cookies detected')
-        if(document.cookie.includes('Username')){
-            console.log('Username gefunden')
-            $('#loadingDisplay').css('display','none');            
-            $('#anzeige').html(getCookie('Username') + ', bist du es? ' + String.fromCodePoint(0x1F632));
-            $('#button').css('left','0')
-            $('#button').css('display','block').html('Na sicher doch!');
-            $('#button').on('click',function(){
-                nachricht['Name'] = getCookie('Username');
-                socket.emit('joining', nachricht);
-                $('#input').css('display','none');
-                $('#input').css('display','none');
-                $('#button').css('display','none').html('');
-                $('#button').off('click');
-            });
-            $('#angriffButton').css('display','block')
-            $('#angriffButton').html('Neu');
-            $('#angriffButton').on('click',function(){
-                $('#angriffButton').off('click')
-                askName()
-            });
-        }else{
-            askName()
-        }
+        askName();
     }
-})
-
-
-
+});
 socket.on('setGamename', function(msg){
-    eraseCookie('gamename');
-    eraseCookie('host');
-    eraseCookie('Haus');
-    spielAuswahl = msg;
-    $('#anzeige').html('Spiel hosten oder beitreten?');
-    $('#button').css('left','0')
-    $('#button').css('display','block').html('Spiel hosten');
-    $('#button').on('click',function(){
-        host = true;
-        setCookie('host', true, 4);
-        $('#angriffButton').off('click');
-        $('#button').off('click');
-        $('#angriffButton').css('display','none');
-        $('#button').css('display','none');
-        $('#button').css('left','15%');
-        $('#hostPage').css('display','block');
-        $('#spielname').css('display','block');
-        $('#variant').css('display','block');
-        $('#spieleranzahl').css('display','block');
-        $('#spielnameLabel').css('display','block');
-        $('#variantLabel').css('display','block');
-        $('#spieleranzahlLabel').css('display','block');
-        $('#hostInputs').css('display','block');
-        $('#footerHost').css('display','block');
-        $('#spielerposition').css('display','none');
-        $('#hostButton').on('click', function(){
-            $('#spielname').css('display','none');
-            $('#variant').css('display','none');
-            $('#spieleranzahl').css('display','none');
-            $('#spielnameLabel').css('display','none');
-            $('#variantLabel').css('display','none');
-            $('#spieleranzahlLabel').css('display','none');
-            $('#hostButton').off('click');
-            console.log('Spiel hosten')
-            $('#hostPage').css('display','none');
-            gamename = $('#spielname').val();
-            message = {
-                'name':gamename,
-                'variant':$('#variant').val(),
-                'numb':$('#spieleranzahl').val()
-            }
-            socket.emit('host', message);
-            nachricht['gamename'] = gamename;
-            setCookie('gamename',nachricht['gamename'],4);
-            setTimeout(function(){ socket.emit('restore',nachricht); }, 500);
-        })
-    });
-    $('#angriffButton').html('Beitreten');
-    $('#angriffButton').css('display','block');
-    $('#angriffButton').on('click',function(){
-        host = false;
-        setCookie('host', false, 4);
-        socket.emit('reloadGames','');
-        $('#spielname').css('display','none');
-        $('#variant').css('display','none');
-        $('#spieleranzahl').css('display','none');
-        $('#spielnameLabel').css('display','none');
-        $('#variantLabel').css('display','none');
-        $('#spieleranzahlLabel').css('display','none');
-        $('#angriffButton').off('click');
-        $('#angriffButton').css('display','none')
-        $('#button').off('click');
-        $('#button').css('display','none')
-        $('#button').css('left','15%');
-        $('#spielAuswahl').html('');
-        for(var i = 0; i < spielAuswahl.length; i++){
-            $('#spielAuswahl').append('<li><a class="spiel">' + spielAuswahl[i] + '</a></li>');   
-        }
-        $('#spielAuswahl').css('display','block');
-        $('.spiel').on('click',function(){
-            $('#spielAuswahl').css('display','none');
-            $('#button').css('left','15%');
-            $('#angriffButton').css('display','none');
-            $('.spiel').off('click');
-            gamename = $(this).html();
-            nachricht['gamename'] = $(this).html();
-            setCookie('gamename',nachricht['gamename'],4)
-            socket.emit('restore',nachricht)
-        });
-    });    
+    setGamename(msg);
 });
+// reload the available games
 socket.on('gameList', function(msg){
-    spielAuswahl = msg;
-    $('#spielAuswahl').html('');
-    for(var i = 0; i < spielAuswahl.length; i++){
-        $('#spielAuswahl').append('<li><a class="spiel">' + spielAuswahl[i] + '</a></li>');   
-    }
-    $('.spiel').on('click',function(){
-        $('#spielAuswahl').css('display','none');
-        $('#button').css('left','15%');
-        $('#angriffButton').css('display','none');
-        $('.spiel').off('click');
-        nachricht['gamename'] = $(this).html();
-        gamename = nachricht['gamename']
-        setCookie('gamename',nachricht['gamename'],4)
-        socket.emit('restore',nachricht)
-    });
+    spieleAuswahl(msg);
 });
-
-
 socket.on('initialize',function(msg){
     spielschritt = 1;
     console.log('initialize');
@@ -230,7 +81,6 @@ socket.on('initialize',function(msg){
     }
     
 });
-
 socket.on('joined', function(msg) {
     spielschritt = 2;
     if (msg.message ==UserHaus){
@@ -306,9 +156,9 @@ socket.on('machtzuwachs', function(msg) {
 });
 socket.on('westeros', function(msg) {
     console.log(msg.message);
-    if(host){
-        westerosphase()
+    if(getCookie('host') === 'true'){
         nachricht['message'] = {};
+        $('.container').html('');
         $('#anzeige').html('Gab es Änderungen in der Westerosphase?');
         $('#button').css('left','0')
         $('#button').css('display','block').html('Änderungen');
@@ -326,10 +176,7 @@ socket.on('westeros', function(msg) {
             $('#rabeLabel').css('display','block');
             $('#footerHost').css('display','block');
             $('#hostButton').html('Änderungen übernehmen')
-            $('#hostButton').on('click', function(){
-                
-                // Diese Funktion muss noch richtig implementirert werden
-                
+            $('#hostButton').on('click', function(){                
                 $('#hostButton').off('click');
                 $('#hostInputs').css('display','none');
                 $('#spielerposition').css('display','none');

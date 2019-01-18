@@ -38,9 +38,10 @@ def angriff(data):
 @socketio.on('restore')
 def restoreSession(data):
     if data['gamename'] in games:
+        join_room(data['gamename'])
         games[data['gamename']].restoreSession(data)
     else:
-        emit('setGamename',list(games.keys()), broadcast = False)
+        emit('noGame',list(games.keys()), broadcast = False)
 @socketio.on('restoreSpielschritt')
 def restoreSchritt(data):
     games[data['gamename']].restoreSchritt(data)
@@ -59,7 +60,7 @@ def create_new_game(data):
 @socketio.on('westerosEnde')
 def westerosEnde(data):
     print(data)
-    games[data['gamename']].westerosphase(data)
+    games[data['gamename']].westerosphaseEnde(data)
 
 ### Spiel selbst starten mit game[__Name__des__Spiels__] = Game(name, variant, numbOfPlayers)
 if __name__ == '__main__':
