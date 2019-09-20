@@ -10,6 +10,7 @@ var befehleStart = new Audio("tones/silence.mp3");
 var spielAuswahl = [];
 // define function to enable no sleep functionallity for mobile devices
 function enableNoSleep() {
+    noSleep.enable();
     dong.play();
     weitermachen.play();
     countdown.play();
@@ -22,7 +23,6 @@ function enableNoSleep() {
     befehleStart = new Audio("tones/befehleStart.mp3");
 
     chaChing = new Audio("tones/chaChing.mp3");
-    noSleep.enable();
     $('#button').off('click',enableNoSleep);
 }
 // call function by clicking the first buttom, so noSleep gets activated
@@ -44,6 +44,12 @@ socket.on('restoreHaus', function(msg){
 });
 // Game not in Progress
 socket.on('noGame', function(msg){
+    eraseCookie('gamename');
+    eraseCookie('host');
+    eraseCookie('Haus');
+    nachricht['Haus'] = '';
+    nachricht['gamename'] = '';
+    nachricht['host'] = '';
     if(document.cookie.includes('Username')){
         console.log('Found Username')
         $('#loadingDisplay').css('display','none');            
@@ -71,7 +77,7 @@ socket.on('setGamename', function(msg){
 socket.on('gameList', function(msg){
     spieleAuswahl(msg);
 });
-socket.on('initialize',function(msg){
+socket.on('initializeUser',function(msg){
     spielschritt = 1;
     console.log('initialize');
     if(msg.message.User == nachricht['Name']){
@@ -159,7 +165,7 @@ socket.on('westeros', function(msg) {
     if(getCookie('host') === 'true'){
         nachricht['message'] = {};
         $('.container').html('');
-        $('#anzeige').html('Gab es Änderungen in der Westerosphase?');
+        $('#anzeige').html('Gab es Änderungen?');
         $('#button').css('left','0')
         $('#button').css('display','block').html('Änderungen');
         $('#button').on('click',function(){

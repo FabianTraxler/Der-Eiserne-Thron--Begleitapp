@@ -13,8 +13,8 @@ class User:
         self.befehlsmarkerZeit = 0
         self.marschBefehleZeit = 0
         self.machtmarkerZeit = 0
-        self.haus = 'abc'
-        self.name = 'abc'
+        self.haus = ''
+        self.name = ''
     def updateBefehle(self, time):
         if (self.befehlsmarkerZeit == 0):
             self.befehlsmarkerZeit = time
@@ -30,9 +30,9 @@ class User:
             self.machtmarkerZeit = time
         else:
             self.machtmarkerZeit = (self.machtmarkerZeit + time) / 2
-    def initialize(self,haus, name):
-        self.haus = haus
-        self.name = name
+    def initialize(self,Haus, Name):
+        self.haus = Haus
+        self.name = Name
 
 
 class Game: 
@@ -434,17 +434,24 @@ class Game:
                 'Hausliste':self.spielbareHauser,
                 'Userliste' : self.usernames
             }
-            for haus in self.spielbareHauser:
-                if(self.spiel['Spieler'][haus]['User'].name == data['Name']):
-                    message['Haus'] = haus
-                    emit('restoreHaus',message, broadcast = False, room=self.name)
-            if not message['Haus']:
+            
+            if not data['Haus']:
                 print(str(data['Name']) + ' noch nicht im Spiel >>> Neuen Spieler anlegen')
-                self.sendMessage('initialize',message)
+                self.sendMessage('initializeUser',message)
+            else:
+                user_restored = False
+                for haus in self.spielbareHauser: # Loop through all houses
+                    if(self.spiel['Spieler'][haus]['User'].name == data['Name']):
+                        message['Haus'] = haus
+                        emit('restoreHaus',message, broadcast = False, room=self.name)
+                        user_restored = True
+                if not user_restored:
+                    emit('noGame', [], broadcast=False)
     def restoreSchritt(self, data):
             print('restoreSchritt')
             self.neuenSpielerAktualisieren(data['Haus'])
     def anzahlBefehlsmarkerAktualisieren(self, data):
             haus = data['Haus']
+            print(data['Anzahl'])
             anzahl = int(data['Anzahl'])
             self.gelegteMarschbefehle[haus] = anzahl

@@ -13,6 +13,10 @@ var nachricht = {
 };
 var x;
 var nochNichtFertig = [];
+$('#reload').on('click',function(){
+    resetCookies_variables();
+    location.reload(); 
+});    
 // initialize heights of objects
 $('#middle').css('top', $('#header').height())
 // define helper functions
@@ -70,11 +74,15 @@ function connected(){
         Username = getCookie('Username');
         gamename = getCookie('gamename');
         host = getCookie('host');
+        if(getCookie('Haus')){
+            haus = getCookie('Haus')
+            nachricht['Haus'] = haus;
+        }
         //fill message with values
         nachricht['gamename'] = gamename;
         nachricht['Name'] = Username;
         //emit message
-        socket.emit('restore',nachricht);
+        socket.emit('restoreSession',nachricht);
         // hide loading screen
         $('#loadingDisplay').css('display','none');
     }else{
@@ -88,7 +96,7 @@ function connected(){
             $('#button').on('click',function(){
                 nachricht['Name'] = getCookie('Username');
                 Username = getCookie('Username');
-                socket.emit('joining', nachricht);
+                socket.emit('startSession', nachricht);
                 $('#input').css('display','none');
                 $('#input').html('');
                 $('#button').css('display','none').html('');
@@ -136,6 +144,7 @@ function spieleAuswahl(msg){
     for(var i = 0; i < spielAuswahl.length; i++){
         $('#spielAuswahl').append('<li><a class="spiel">' + spielAuswahl[i] + '</a></li>');   
     }
+    $('#spielAuswahl').append('<li><a class="back"> <-- </a></li>');
     $('.spiel').on('click',function(){
         $('#spielAuswahl').css('display','none');
         $('#button').css('left','15%');
@@ -145,14 +154,16 @@ function spieleAuswahl(msg){
         nachricht['gamename'] = $(this).html();
         gamename = nachricht['gamename']
         setCookie('gamename',nachricht['gamename'],4)
-        socket.emit('restore',nachricht)
+        socket.emit('restoreSession',nachricht)
+    });
+    $('.back').on('click',function(){
+        socket.emit('startSession', nachricht);
     });
 };
 function setGamename(gameList){
-    eraseCookie('gamename');
-    eraseCookie('host');
-    eraseCookie('Haus');
     spielAuswahl = gameList;
+    $('.spiel').off('click');
+    $('#spielAuswahl').html('');
     $('#anzeige').html('Spiel hosten oder beitreten?');
     $('#button').css('left','0')
     $('#button').css('display','block').html('Spiel hosten');
@@ -195,15 +206,16 @@ function setGamename(gameList){
             socket.emit('host', message);
             nachricht['gamename'] = gamename;
             setCookie('gamename',nachricht['gamename'],8);
-            setTimeout(function(){ socket.emit('restore',nachricht); }, 500);
+            setTimeout(function(){ socket.emit('restoreSession',nachricht); }, 500);
         })
     });
     $('#angriffButton').html('Beitreten');
     $('#angriffButton').css('display','block');
     $('#angriffButton').on('click',function(){
+        socket.emit('reloadGames', '')
         host = false;
         setCookie('host', host, 8);
-        socket.emit('reloadGames','');
+        // socket.emit('reloadGames','');
         $('#input').css('display','none');
         $('#anzeige').html('Spiel auswählen');
         $('#spielname').css('display','none');
@@ -307,7 +319,7 @@ function saveName(){
     Username = $('#input').val();
     nachricht['Name'] = Username;
     setCookie('Username',Username, null);
-    socket.emit('joining', nachricht);
+    socket.emit('startSession', nachricht);
     $('#input').css('display','none');
     $('#input').css('display','none');
     $('#button').css('display','none').html('');
