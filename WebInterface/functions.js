@@ -14,7 +14,6 @@ var nachricht = {
 var x;
 var nochNichtFertig = [];
 $('#reload').on('click',function(){
-    resetCookies_variables();
     location.reload(); 
 });    
 // initialize heights of objects
