@@ -59,7 +59,7 @@ function resetCookies_variables(){
         'Haus':'',
         'message':''
     };
-    x;
+    var x;
     nochNichtFertig = [];
 }
 
