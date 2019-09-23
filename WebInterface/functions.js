@@ -48,18 +48,18 @@ function resetCookies_variables(){
     eraseCookie('Haus');
     eraseCookie('gamename');
     eraseCookie('host');
-    var Username = '';
-    var UserHaus = '';
-    var UserNames = [];
-    var gamename = '';
-    var host = false;
-    var nachricht = {
+    Username = '';
+    UserHaus = '';
+    UserNames = [];
+    gamename = '';
+    host = false;
+    nachricht = {
         'gamename': '',
         'Name':'',
         'Haus':'',
         'message':''
     };
-    var x;
+    x = '';
     nochNichtFertig = [];
 }
 
@@ -74,8 +74,8 @@ function connected(){
         gamename = getCookie('gamename');
         host = getCookie('host');
         if(getCookie('Haus')){
-            haus = getCookie('Haus')
-            nachricht['Haus'] = haus;
+            UserHaus = getCookie('Haus')
+            nachricht['Haus'] = UserHaus;
         }
         //fill message with values
         nachricht['gamename'] = gamename;
@@ -127,7 +127,7 @@ function restoreHaus(msg){
     var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';
     $('#wrapper').css('background-image', bildURL);
     createNochNichtFertig(msg.Hausliste);
-    hausliste = msg.Hausliste;
+    let hausliste = msg.Hausliste;
     var index = hausliste.indexOf(UserHaus);
     if (index !== -1){
         hausliste.splice(index, 1);
@@ -136,7 +136,7 @@ function restoreHaus(msg){
     socket.emit('restoreSpielschritt',nachricht);
 };
 function spieleAuswahl(msg){
-    spielAuswahl = msg;
+    let spielAuswahl = msg;
     $('.spiel').off('click');
     $('#spielAuswahl').html('');
     $('#spielAuswahl').css('display','block');
@@ -197,7 +197,7 @@ function setGamename(gameList){
             console.log('Spiel hosten')
             $('#hostPage').css('display','none');
             gamename = $('#spielname').val();
-            message = {
+            let message = {
                 'name':gamename,
                 'variant':$('#variant').val(),
                 'numb':$('#spieleranzahl').val()
@@ -460,7 +460,7 @@ function angriffStart(){
     $('#userAuswahl').css('display','block');
     $('#button').html('Angriff beendet!');
     $('.haus').on('click',function(){
-        verteidiger = $(this).html();
+        let verteidiger = $(this).html();
         angriffMachen(verteidiger)
     });
 }
