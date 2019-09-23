@@ -160,7 +160,7 @@ function spieleAuswahl(msg){
     });
 };
 function setGamename(gameList){
-    spielAuswahl = gameList;
+    let spielAuswahl = gameList;
     $('.spiel').off('click');
     $('#spielAuswahl').html('');
     $('#anzeige').html('Spiel hosten oder beitreten?');
@@ -467,7 +467,7 @@ function angriffStart(){
 function angriffMachen(verteidiger){
     $('.haus').off('click',);
     $('#userAuswahl').css('display','none');
-    message ={
+    let message ={
         'gamename':gamename,
         'Angreifer':UserHaus,
         'Verteidiger':verteidiger
