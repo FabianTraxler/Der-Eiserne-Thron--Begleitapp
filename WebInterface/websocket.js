@@ -8,6 +8,8 @@ var chaChing = new Audio("tones/silence.mp3");
 var befehleStart = new Audio("tones/silence.mp3");
 //cretae variable for list of available games
 var spielAuswahl = [];
+
+var spielschritt = 0
 // define function to enable no sleep functionallity for mobile devices
 function enableNoSleep() {
     noSleep.enable();
