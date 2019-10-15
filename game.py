@@ -96,13 +96,16 @@ class Game:
         date = datetime.datetime.now()
         self.today = str(date.year) +'-'+str(date.month) +'-'+str(date.day)
     
-    def sendMessage(self, ID, Nachricht, broadcast = True):
-        self.nachricht = {
+    def sendMessage(self, ID, Nachricht, betroffener='Alle', schritt_erledigt=False, broadcast = True):
+        nachricht = {
             'Name': self.name,
-            'Haus': 'admin',
+            'Betroffener': betroffener,
             'message': Nachricht
         }
-        emit(ID,self.nachricht, broadcast = broadcast, room=self.name)
+        if schritt_erledigt:
+            nachricht['erledigt'] = 'True'
+        
+        emit(ID, nachricht, broadcast = broadcast, room=self.name)
     
     def updateStatusAlle(self,status):
         for self.haus in self.spielbareHauser:
@@ -135,36 +138,48 @@ class Game:
             return False
 
     def neuenSpielerAktualisieren(self, haus):
+        hausStatus = self.spiel['Spieler'][haus]['Status']
+
         if(self.Spielschritt == 'Joined'):
-            self.sendMessage('joined','Alle')
-            self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig, broadcast=False)
+            if hausStatus == self.Spielschritt:
+                self.sendMessage('joined','Alle', betroffener=haus, broadcast=False)
+            else: # User hat diesen Schritt schon erledigt und wartet auf andere
+                self.sendMessage('joined','Alle', betroffener=haus, schritt_erledigt=True, broadcast=False)
+            self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig, betroffener=haus, broadcast=False)
         elif(self.Spielschritt == 'Start'):
             nachricht = {
                 'msg': 'Spiel wird gestartet',
                 'usernames':self.usernames
             }
-            self.sendMessage('start', nachricht)
+            self.sendMessage('start', nachricht, betroffener=haus)
         elif(self.Spielschritt == 'Befehle'):
             self.timer = self.createTimer('Befehlsmarker legen', self.verbleibendeZeit(self.spiel['Spiel_Config']['Spielzugdauer']['BefehlsmarkerLegen']), haus)
-            self.sendMessage('befehle', self.timer, broadcast=False)
-            self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig,broadcast=False)
+            self.sendMessage('befehle', self.timer, betroffener=haus, broadcast=False)
+            self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig, betroffener=haus, broadcast=False)
         elif(self.Spielschritt == 'Uberfall'):
-            self.sendMessage('Uberfall',self.rabe, broadcast=False)
+            nachricht = {
+                "bestroffener": haus,
+                "rabe": self.rabe
+            }
+            self.sendMessage('uberfall',nachricht, betroffener=haus, broadcast=False)
         elif(self.Spielschritt == 'Marsch'):
             self.timer = self.createTimer('Marschbefehl ausführen', self.verbleibendeZeit(self.spiel['Spiel_Config']['Spielzugdauer']['Marschbefehl']), self.AmZug)
-            self.sendMessage('marsch', self.timer,broadcast=False)
+            self.sendMessage('marsch', self.timer, betroffener=haus, broadcast=False)
             self.nochNichtFertig = self.spielbareHauser.copy()
             try:
                 self.nochNichtFertig.remove(self.AmZug)
             except:
                 pass
-            self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig, broadcast=False)
+            self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig, betroffener=haus, broadcast=False)
         elif(self.Spielschritt == 'Machtzuwachs'):
             self.timer = self.createTimer('Machtmarker nehmen', self.verbleibendeZeit(self.spiel['Spiel_Config']['Spielzugdauer']['Machtzuwachs']), haus)
-            self.sendMessage('machtzuwachs', self.timer, broadcast=False)
-            self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig, broadcast=False)
+            self.sendMessage('machtzuwachs', self.timer, betroffener=haus, broadcast=False)
+            self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig, betroffener=haus, broadcast=False)
         elif(self.Spielschritt =='Westeros'):
-            self.sendMessage('westeros','Westerosphase beginnt!', broadcast=False)
+            nachricht = {
+                "nachricht": 'Westerosphase beginnt!'
+            }
+            self.sendMessage('westeros',nachricht, betroffener=haus, broadcast=False)
         print('---------------------')
         print('Spielschritt ' + self.Spielschritt + ' wiederhergestellt!')
         print('---------------------')
@@ -221,7 +236,7 @@ class Game:
             'Angreifer':angreifer,
             'Verteidiger':verteidiger
         }
-        self.sendMessage('anriffMachen',nachricht)
+        self.sendMessage('angriffMachen',nachricht)
     def marschMachen(self, haus):
         print('---------------------')
         print(haus + ' macht seinen Marsch')
@@ -315,7 +330,7 @@ class Game:
             self.nochNichtFertig = self.spielbareHauser.copy()
             self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig)
         else:
-            self.sendMessage('joined', Haus)
+            self.sendMessage('joined', Haus, betroffener=Haus)
 
     def updateHausstatus(self, Haus,Status):
         now = time.time()
@@ -325,6 +340,7 @@ class Game:
         print(Haus + ' >>> ' + self.spiel['Spieler'][Haus]['Status'])
 
         if(self.alleBereit(Status)):
+            self.sendMessage('resetHausanzeige','')
             if(Status == 'bereitStart'):
                 print('Starting the game ...')
                 self.nochNichtFertig = self.spielbareHauser.copy()
@@ -333,15 +349,16 @@ class Game:
                 self.updateStats(Haus,Status, self.zeit)
                 self.nochNichtFertig = self.spielbareHauser.copy()
                 self.Spielschritt = 'Uberfall'
-                self.sendMessage('resetHausanzeige','')
                 print('---------------------')
                 print('Überfälle ausführen ...')
                 self.updateStatusAlle('Uberfalle')
-                self.sendMessage('Uberfall',self.rabe)
+                nachricht = {
+                    "rabe": self.rabe
+                }
+                self.sendMessage('uberfall',nachricht)
             if(Status == 'uberfall gemacht'):
                 self.updateStats(Haus,Status, self.zeit)
                 self.nochNichtFertig = self.spielbareHauser.copy()
-                self.sendMessage('resetHausanzeige','')
                 print('---------------------')
                 print('Marschbefehle ausführen ...')
                 self.updateStatusAlle('Uberfall')
@@ -349,10 +366,13 @@ class Game:
                 self.marschBefehle()
             if(Status == 'Machtmarker genommen'):
                 self.updateStats(Haus,Status, self.zeit)
-                self.sendMessage('resetHausanzeige','')
                 self.nochNichtFertig = self.spielbareHauser.copy()
                 self.sendMessage('zeigeHausAnzeige', self.nochNichtFertig)
-                self.sendMessage('westeros','Westerosphase beginnt!')
+                nachricht = {
+                    "betroffener": "Alle",
+                    "nachricht": 'Westerosphase beginnt!'
+                }
+                self.sendMessage('westeros',nachricht)
                 self.Spielschritt ='Westeros'
                 print('---------------------')
                 print('---------------------')
@@ -410,22 +430,27 @@ class Game:
             print('Auf weitere Marschbefehle warten ...')
             self.marschBefehle()
     #Dieser Bereich definiert was mit den Nachrichten geschehen soll die an den Server gesendet werden        
+    
     def initializeGame(self,data):
             message = {
                 'User':data['Name'],
                 'Hausliste':self.spielbareHauser
             }
             self.sendMessage('initialize',message)
+    
     def on_join(self,data):
             self.spielerBeitritt(data['Haus'], data['Name'])
+    
     def statusAktualisieren(self, data):
             stat = data['message']
             self.updateHausstatus(data['Haus'],stat)
+    
     def angriff(self, data):
             print('++++++++++++++++++++++++')
             print(self.spiel['Spieler'][data['Angreifer']]['User'].name + ' greift ' + data['Verteidiger']+ ' an')
             print('++++++++++++++++++++++++')
             self.angriffMachen(data['Angreifer'], self.dictUserHaus[data['Verteidiger']])
+    
     def restoreSession(self, data):
             print(str(data['Name']) + ' >>> restoring session ...')
             message = {
@@ -446,10 +471,12 @@ class Game:
                         emit('restoreHaus',message, broadcast = False, room=self.name)
                         user_restored = True
                 if not user_restored:
-                    emit('noGame', [], broadcast=False)
+                    emit('noGame', [], broadcast=False)              
+    
     def restoreSchritt(self, data):
-            print('restoreSchritt')
+            print('Spielschritt wiederherstellen')
             self.neuenSpielerAktualisieren(data['Haus'])
+    
     def anzahlBefehlsmarkerAktualisieren(self, data):
             haus = data['Haus']
             print(data['Anzahl'])

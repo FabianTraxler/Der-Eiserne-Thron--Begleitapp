@@ -60,12 +60,15 @@ socket.on('noGame', function(msg){
         $('#button').css('display','block').html('Na sicher doch!');
         $('#button').on('click',function(){
             nachricht['Name'] = getCookie('Username');
+            $('#angriffButton').off('click');
+            $('#button').off('click');
             setGamename(msg)
         });
         $('#angriffButton').css('display','block')
         $('#angriffButton').html('Nein');
         $('#angriffButton').on('click',function(){
             $('#angriffButton').off('click');
+            $('#button').off('click');
             askName();
         });
     }else{
@@ -91,53 +94,65 @@ socket.on('initializeUser',function(msg){
 });
 socket.on('joined', function(msg) {
     spielschritt = 2;
-    if (msg.message ==UserHaus){
-        console.log('joined');
-        $('#anzeige').html('Auf andere Spieler warten ...');
-    }
-    if (msg.message =='Alle'){
-        $('#anzeige').html('Alle Spieler beigetreten');
-        $('#button').css('display','block').html('Bereit');
-        $('#button').on('click',bereitSpielen);
+    if(msg.Betroffener == "Alle" || msg.Betroffener == UserHaus){
+        if (msg.message ==UserHaus){
+            console.log('joined');
+            $('#anzeige').html('Auf andere Spieler warten ...');
+        }
+        else if (msg.message =='Alle'){
+            $('#anzeige').html('Alle Spieler beigetreten');
+            if (!('erledigt' in msg)){
+                $('#button').css('display','block').html('Bereit');
+                $('#button').on('click',bereitSpielen);
+            }
+        }
     }
 });
 socket.on('start', function(msg) {
-    console.log(msg.message.usernames);
-    saveUsernames(msg.message.usernames)
-    $('#anzeige').html(msg.message.msg);
+    if(msg.Betroffener == "Alle" || msg.Betroffener == UserHaus){
+        console.log(msg.message.usernames);
+        saveUsernames(msg.message.usernames)
+        $('#anzeige').html(msg.message.msg);
+    }
 });
 socket.on('befehle', function(msg) {
-    var betroffener = msg.message.Haus;
-    if(betroffener == UserHaus){
-        clearInterval(x);
-        $('#timer').css('display','none');
-        $('#anzeige').html(msg.message.Aktion);
-        befehlsmarkerStart(parseInt(msg.message.Zeit) );
-    }
-    if(betroffener == 'Alle'){
-        $('#anzeige').html(msg.message.Aktion);
-        befehlsmarkerStart(parseInt(msg.message.Zeit) );
+    if(msg.Betroffener == "Alle" || msg.Betroffener == UserHaus){
+        var betroffener = msg.message.Haus;
+        if(betroffener == UserHaus){
+            clearInterval(x);
+            $('#timer').css('display','none');
+            $('#anzeige').html(msg.message.Aktion);
+            befehlsmarkerStart(parseInt(msg.message.Zeit) );
+        }
+        if(betroffener == 'Alle'){
+            $('#anzeige').html(msg.message.Aktion);
+            befehlsmarkerStart(parseInt(msg.message.Zeit) );
+        }
     }
 });
-socket.on('Uberfall',function(msg){
-    uberfalle();
-    if(msg.message == UserHaus){
-        $('#timer').css('display','block').html('Wildlingskarte anschauen oder Befehl tauschen!')
+socket.on('uberfall',function(msg){
+    if(msg.Betroffener == "Alle" || msg.Betroffener == UserHaus){
+        uberfalle();
+        if(msg.message.rabe == UserHaus){
+            $('#timer').css('display','block').html('Wildlingskarte anschauen oder Befehl tauschen!')
+        }
     }
 });
 socket.on('marsch', function(msg) {
-    var betroffener = msg.message.Haus;
-    if(betroffener == UserHaus){
-        clearInterval(x);
-        $('#timer').css('display','none');
-        $('#anzeige').html(msg.message.Aktion);
-        marschStart(parseInt(msg.message.Zeit));
-    }else{
-        showTimer(parseInt(msg.message.Zeit))
-        $('#anzeige').html(msg.message.Geschehen);
+    if(msg.Betroffener == "Alle" || msg.Betroffener == UserHaus){
+        var amZug = msg.message.Haus;
+        if(amZug == UserHaus){
+            clearInterval(x);
+            $('#timer').css('display','none');
+            $('#anzeige').html(msg.message.Aktion);
+            marschStart(parseInt(msg.message.Zeit));
+        }else{
+            showTimer(parseInt(msg.message.Zeit))
+            $('#anzeige').html(msg.message.Geschehen);
+        }
     }
 });
-socket.on('anriffMachen', function(msg){
+socket.on('angriffMachen', function(msg){
     var angreifer = msg.message.Angreifer;
     var verteidiger = msg.message.Verteidiger;
     if(verteidiger == UserHaus){
@@ -149,73 +164,77 @@ socket.on('anriffMachen', function(msg){
     }
 })
 socket.on('machtzuwachs', function(msg) {
-    resetNochNichtFertig();
-    var betroffener = msg.message.Haus;
-    if(betroffener == UserHaus){
-        clearInterval(x);
-        $('#timer').css('display','none');
-        $('#anzeige').html(msg.message.Aktion);
-        machtStart(parseInt(msg.message.Zeit) );
-    }
-    if(betroffener == 'Alle'){
-        $('#anzeige').html(msg.message.Aktion);
-        machtStart(parseInt(msg.message.Zeit) );
+    if(msg.Betroffener == "Alle" || msg.Betroffener == UserHaus){
+        resetNochNichtFertig();
+        var betroffener = msg.message.Haus;
+        if(betroffener == UserHaus){
+            clearInterval(x);
+            $('#timer').css('display','none');
+            $('#anzeige').html(msg.message.Aktion);
+            machtStart(parseInt(msg.message.Zeit) );
+        }
+        if(betroffener == 'Alle'){
+            $('#anzeige').html(msg.message.Aktion);
+            machtStart(parseInt(msg.message.Zeit) );
+        }
     }
 });
 socket.on('westeros', function(msg) {
-    console.log(msg.message);
-    if(getCookie('host') === 'true'){
-        nachricht['message'] = {};
-        $('.container').html('');
-        $('#anzeige').html('Gab es Änderungen?');
-        $('#button').css('left','0')
-        $('#button').css('display','block').html('Änderungen');
-        $('#button').on('click',function(){
-            $('#angriffButton').off('click');
-            $('#button').off('click');
-            $('#angriffButton').css('display','none');
-            $('#button').css('display','none');
-            $('#button').css('left','15%');
-            $('#hostPage').css('display','block');
-            $('#hostInputs').css('display','block');
-            $('#spielerposition').css('display','block');
-            $('#rabe').css('display','block');
-            $('#spielerpositionLabel').css('display','block');
-            $('#rabeLabel').css('display','block');
-            $('#footerHost').css('display','block');
-            $('#hostButton').html('Änderungen übernehmen')
-            $('#hostButton').on('click', function(){                
-                $('#hostButton').off('click');
-                $('#hostInputs').css('display','none');
-                $('#spielerposition').css('display','none');
-                $('#rabe').css('display','none');
-                $('#spielerpositionLabel').css('display','none');
-                $('#rabeLabel').css('display','none');
-                $('#hostPage').css('display','none');
-                
-                nachricht['message']['change'] = true;
-                nachricht['message']['rabe'] = $('#rabe').val();
-                var charString = String($('#spielerposition').val());
-                console.log(charString)
-                nachricht['message']['reihenfolge'] = charString;
+    if(msg.Betroffener == "Alle" || msg.Betroffener == UserHaus){
+        console.log(msg.message);
+        if(getCookie('host') === 'true'){
+            nachricht['message'] = {};
+            $('.container').html('');
+            $('#anzeige').html('Gab es Änderungen?');
+            $('#button').css('left','0')
+            $('#button').css('display','block').html('Änderungen');
+            $('#button').on('click',function(){
+                $('#angriffButton').off('click');
+                $('#button').off('click');
+                $('#angriffButton').css('display','none');
+                $('#button').css('display','none');
+                $('#button').css('left','15%');
+                $('#hostPage').css('display','block');
+                $('#hostInputs').css('display','block');
+                $('#spielerposition').css('display','block');
+                $('#rabe').css('display','block');
+                $('#spielerpositionLabel').css('display','block');
+                $('#rabeLabel').css('display','block');
+                $('#footerHost').css('display','block');
+                $('#hostButton').html('Änderungen übernehmen')
+                $('#hostButton').on('click', function(){                
+                    $('#hostButton').off('click');
+                    $('#hostInputs').css('display','none');
+                    $('#spielerposition').css('display','none');
+                    $('#rabe').css('display','none');
+                    $('#spielerpositionLabel').css('display','none');
+                    $('#rabeLabel').css('display','none');
+                    $('#hostPage').css('display','none');
+                    
+                    nachricht['message']['change'] = true;
+                    nachricht['message']['rabe'] = $('#rabe').val();
+                    var charString = String($('#spielerposition').val());
+                    console.log(charString)
+                    nachricht['message']['reihenfolge'] = charString;
+                    socket.emit('westerosEnde', nachricht)
+                });
+            });
+            $('#angriffButton').html('Keine Änderungen');
+            $('#angriffButton').css('display','block');
+            $('#angriffButton').on('click',function(){
+                $('#angriffButton').off('click');
+                $('#button').off('click');
+                $('#angriffButton').css('display','none');
+                $('#button').css('display','none');
+                $('#button').css('left','15%');
+                nachricht['message']['change'] = false;
                 socket.emit('westerosEnde', nachricht)
             });
-        });
-        $('#angriffButton').html('Keine Änderungen');
-        $('#angriffButton').css('display','block');
-        $('#angriffButton').on('click',function(){
-            $('#angriffButton').off('click');
-            $('#button').off('click');
-            $('#angriffButton').css('display','none');
-            $('#button').css('display','none');
-            $('#button').css('left','15%');
-            nachricht['message']['change'] = false;
-            socket.emit('westerosEnde', nachricht)
-        });
-    }else{
-        $('#anzeige').html(msg.message);
-        $('#button').css('display','block').html('Ready für die nächste Runde!');
-        $('#button').on('click',westerosphase);
+        }else{
+            $('#anzeige').html(msg.message);
+            $('#button').css('display','block').html('Ready für die nächste Runde!');
+            $('#button').on('click',westerosphase);
+        }
     }
     
 });
@@ -223,8 +242,10 @@ socket.on('ende', function(msg){
     $('#anzeige').html(msg.message);
 });
 socket.on('zeigeHausAnzeige', function(msg){
-    resetNochNichtFertig();
-    displayFertig(msg.message);
+    if(msg.Betroffener == "Alle" || msg.Betroffener == UserHaus){
+        resetNochNichtFertig();
+        displayFertig(msg.message);
+    }
 });
 socket.on('resetHausanzeige', function(msg){
     resetNochNichtFertig();

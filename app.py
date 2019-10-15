@@ -12,6 +12,8 @@ from flask_socketio import SocketIO, join_room, emit
 import threading
 # socket to get the IP Adresse of the Server
 import socket
+import logging
+
 
 # initialize a dicstionary with all games in progress
 games = {}
@@ -20,6 +22,10 @@ IP = (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.
 app = Flask(__name__)
 socketio = SocketIO(app)
 
+# Define Logger
+log = logging.getLogger('werkzeug')
+log.disabled = True
+app.logger.disabled = True
 # define event handlers, which indentify the right game and call the respective action
 @socketio.on('startSession')
 def initializGame(data):
@@ -67,7 +73,7 @@ def westerosEnde(data):
 if __name__ == '__main__':
     # run socketio in different thread so games can be acces during runtime
     def socketthread():
-        socketio.run(app, host=IP, port=9191)
+        socketio.run(app, host=IP, port=9191, log_output=False)
     thread = threading.Thread(target=socketthread, args=())
     thread.daemon = True# Daemonize thread
     thread.start() 

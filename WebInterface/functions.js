@@ -20,13 +20,12 @@ $('#reload').on('click',function(){
 $('#middle').css('top', $('#header').height())
 // define helper functions
 function setCookie(name,value,hours) {
-    var expires = "; max-age=9999999999999999";
+    var expires = "; max-age=9999";
     if (parseInt(hours)) {
         var duration = hours * 60 * 60
         expires = "; max-age=" + String(duration);
     }
     var cookie =  name + "=" + value  + expires + "; path=/";
-    console.log(cookie)
     document.cookie = cookie;
 }
 function getCookie(name) {
@@ -127,7 +126,7 @@ function restoreHaus(msg){
     var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';
     $('#wrapper').css('background-image', bildURL);
     createNochNichtFertig(msg.Hausliste);
-    let hausliste = msg.Hausliste;
+    var hausliste = msg.Hausliste;
     var index = hausliste.indexOf(UserHaus);
     if (index !== -1){
         hausliste.splice(index, 1);
@@ -229,7 +228,7 @@ function setGamename(gameList){
         $('#button').css('display','none');
         $('#button').css('left','15%');
         $('#spielAuswahl').html('');
-        spieleAuswahl(spielAuswahl);
+        console.log(document.cookie)
     });    
 };
 
@@ -291,7 +290,7 @@ function saveHaus(){
     $('.haus').off('click',saveHaus);
     UserHaus = $(this).html();
     nachricht['Haus'] = UserHaus;
-    setCookie('Haus', UserHaus);
+    setCookie('Haus', UserHaus, 8);
     $(this).remove();
     $('.container').css('opacity',1)
     var bildURL = 'url("Hauswappen/'+UserHaus+'.jpg")';

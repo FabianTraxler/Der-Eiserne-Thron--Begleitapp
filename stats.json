@@ -1,5 +1,12 @@
 {
     "Spieler": {
+        "": {
+            "2019-10-14": {
+                "Befehlsmarker legen": 20.0,
+                "Machtmarker nehmen": 1.5,
+                "Marschausführen": 1
+            }
+        },
         "Afg": {
             "2019-1-18": {
                 "Befehlsmarker legen": 7.25,
@@ -14,11 +21,25 @@
                 "Marschausführen": 1
             }
         },
+        "Ch": {
+            "2019-10-12": {
+                "Befehlsmarker legen": 40.5,
+                "Machtmarker nehmen": 4.0,
+                "Marschausführen": 1
+            }
+        },
         "Dd": {
             "2019-9-20": {
                 "Befehlsmarker legen": 62.625,
                 "Machtmarker nehmen": 12.375,
                 "Marschausführen": 5.125
+            }
+        },
+        "Es": {
+            "2019-10-8": {
+                "Befehlsmarker legen": 5,
+                "Machtmarker nehmen": 0,
+                "Marschausführen": 0
             }
         },
         "Fa": {
@@ -38,6 +59,11 @@
                 "Befehlsmarker legen": 4,
                 "Machtmarker nehmen": 0,
                 "Marschausführen": 0
+            },
+            "2019-10-8": {
+                "Befehlsmarker legen": 26,
+                "Machtmarker nehmen": 12,
+                "Marschausführen": 6
             }
         },
         "Fabi": {
@@ -69,6 +95,11 @@
                 "Befehlsmarker legen": 4.28125,
                 "Machtmarker nehmen": 1.0,
                 "Marschausführen": 0
+            },
+            "2019-10-8": {
+                "Befehlsmarker legen": 30,
+                "Machtmarker nehmen": 8,
+                "Marschausführen": 13.0
             },
             "2019-9-20": {
                 "Befehlsmarker legen": 13.5,
@@ -138,6 +169,13 @@
                 "Marschausführen": 7
             }
         },
+        "Fdfggg": {
+            "2019-10-8": {
+                "Befehlsmarker legen": 100,
+                "Machtmarker nehmen": 6,
+                "Marschausführen": 0
+            }
+        },
         "Ff": {
             "2018-11-24": {
                 "Befehlsmarker legen": 2.25,
@@ -150,6 +188,13 @@
                 "Befehlsmarker legen": 5,
                 "Machtmarker nehmen": 3,
                 "Marschausführen": 5
+            }
+        },
+        "Fr": {
+            "2019-10-12": {
+                "Befehlsmarker legen": 39.5,
+                "Machtmarker nehmen": 3.5,
+                "Marschausführen": 3
             }
         },
         "Georg": {
@@ -173,10 +218,50 @@
                 "Marschausführen": 1
             }
         },
+        "IMac": {
+            "2019-10-12": {
+                "Befehlsmarker legen": 43.5,
+                "Machtmarker nehmen": 3.0,
+                "Marschausführen": 2
+            }
+        },
+        "Iphone": {
+            "2019-10-14": {
+                "Befehlsmarker legen": 5.0,
+                "Machtmarker nehmen": 24.75,
+                "Marschausführen": 5.25
+            }
+        },
+        "Mac": {
+            "2019-10-12": {
+                "Befehlsmarker legen": 45.5,
+                "Machtmarker nehmen": 2.75,
+                "Marschausführen": 2
+            },
+            "2019-10-14": {
+                "Befehlsmarker legen": 5.0,
+                "Machtmarker nehmen": 31.0,
+                "Marschausführen": 5.75
+            }
+        },
         "R": {
             "2019-9-20": {
                 "Befehlsmarker legen": 22,
                 "Machtmarker nehmen": 1,
+                "Marschausführen": 0
+            }
+        },
+        "Sffd": {
+            "2019-10-8": {
+                "Befehlsmarker legen": 11.5,
+                "Machtmarker nehmen": 3,
+                "Marschausführen": 0
+            }
+        },
+        "adf": {
+            "2019-10-8": {
+                "Befehlsmarker legen": 32,
+                "Machtmarker nehmen": 2.0,
                 "Marschausführen": 0
             }
         },
@@ -206,6 +291,13 @@
                 "Marschausführen": 0
             }
         },
+        "fad": {
+            "2019-10-8": {
+                "Befehlsmarker legen": 7,
+                "Machtmarker nehmen": 1,
+                "Marschausführen": 1
+            }
+        },
         "fasd": {
             "2018-11-15": {
                 "Befehlsmarker legen": 2,
@@ -225,6 +317,20 @@
                 "Befehlsmarker legen": 66.25,
                 "Machtmarker nehmen": 13.0,
                 "Marschausführen": 18.5
+            }
+        },
+        "ghj": {
+            "2019-10-8": {
+                "Befehlsmarker legen": 73.0,
+                "Machtmarker nehmen": 9,
+                "Marschausführen": 0
+            }
+        },
+        "hns": {
+            "2019-10-8": {
+                "Befehlsmarker legen": 10,
+                "Machtmarker nehmen": 2,
+                "Marschausführen": 3.0
             }
         },
         "vbn": {
