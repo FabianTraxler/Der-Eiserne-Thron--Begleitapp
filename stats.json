@@ -14,6 +14,13 @@
                 "Marschausführen": 2.5
             }
         },
+        "Android": {
+            "2019-10-17": {
+                "Befehlsmarker legen": 3,
+                "Machtmarker nehmen": 3,
+                "Marschausführen": 2
+            }
+        },
         "Arbit": {
             "2019-1-18": {
                 "Befehlsmarker legen": 17,
@@ -230,6 +237,11 @@
                 "Befehlsmarker legen": 5.0,
                 "Machtmarker nehmen": 24.75,
                 "Marschausführen": 5.25
+            },
+            "2019-10-17": {
+                "Befehlsmarker legen": 10,
+                "Machtmarker nehmen": 3,
+                "Marschausführen": 72.0
             }
         },
         "Mac": {

@@ -339,6 +339,12 @@ function saveUsernames(Usernames){
     for(var i = 0; i < UserNames.length; i++){
         $('#userAuswahl').append('<li><a class="haus">' + UserNames[i] + '</a></li>');   
     }
+    $('#userAuswahl').append('<li><a class="back_"> <-- </a></li>');
+    $('.back_').on('click'){
+        $('#userAuswahl').css('display','none');
+        $('#angriffButton').css('display','block');
+        $('#button').css('display','block')
+    }
 }
 function befehlsmarkerStart(sekunden){
     befehleStart.play();
@@ -388,13 +394,14 @@ function befehlsmarkerEnd(){
     countdown.pause();
     clearInterval(x);
     var anzahl = $('#angriffButton').html();
+    $('#anzeige').html("Auf andere Spieler warten");
     $('#timer').css('display','none');
     $('#button').css('display','none').html('');
     $('#button').css('left','15%');
     $('#button').off('click',befehlsmarkerEnd);
     $('#angriffButton').css('display','none')
     $('#angriffButton').html('');
-    $('#angriffButton').off('click',);
+    $('#angriffButton').off('click');
     nachricht['message'] = 'Befehlsmarker gelegt';
     var befehlsmarker = {
         'gamename' : gamename,
@@ -413,7 +420,7 @@ function uberfalle(){
 function uberfallgenommen(){
     $('#button').off('click',uberfallgenommen);
     $('#button').css('display','none').html('');
-    $('#anzeige').html('Auf andere Spieler warten ...');
+    $('#anzeige').html('Auf andere Spieler warten');
     nachricht['message'] = 'uberfall gemacht';
     socket.emit('status', nachricht);
 }
@@ -457,7 +464,7 @@ function angriffStart(){
     $('#timer').css('display','none');
     $('#angriffButton').css('display','none');
     $('#userAuswahl').css('display','block');
-    $('#button').html('Angriff beendet!');
+    $('#button').css('display','none').html('Angriff beendet!');
     $('.haus').on('click',function(){
         let verteidiger = $(this).html();
         angriffMachen(verteidiger)
@@ -465,6 +472,7 @@ function angriffStart(){
 }
 function angriffMachen(verteidiger){
     $('.haus').off('click',);
+    $('#button').css('display','block')
     $('#userAuswahl').css('display','none');
     let message ={
         'gamename':gamename,
@@ -521,7 +529,7 @@ function machtStart(sekunden){
 
 function machtEnde(){
     countdown.pause();
-    $('#anzeige').html('Auf andere Spieler warten ...');
+    $('#anzeige').html('Auf andere Spieler warten');
     clearInterval(x);
     $('#timer').css('display','none');
     $('#button').css('display','none').html('');

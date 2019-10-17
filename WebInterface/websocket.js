@@ -101,7 +101,7 @@ socket.on('joined', function(msg) {
         }
         else if (msg.message =='Alle'){
             $('#anzeige').html('Alle Spieler beigetreten');
-            if (!('erledigt' in msg)){
+            if (!('erledigt' in msg)){ // Wenn Spieler diesen Schritt noch nicht erledigt hat
                 $('#button').css('display','block').html('Bereit');
                 $('#button').on('click',bereitSpielen);
             }
@@ -119,10 +119,14 @@ socket.on('befehle', function(msg) {
     if(msg.Betroffener == "Alle" || msg.Betroffener == UserHaus){
         var betroffener = msg.message.Haus;
         if(betroffener == UserHaus){
-            clearInterval(x);
-            $('#timer').css('display','none');
-            $('#anzeige').html(msg.message.Aktion);
-            befehlsmarkerStart(parseInt(msg.message.Zeit) );
+            if (!('erledigt' in msg)){ // Wenn Spieler diesen Schritt noch nicht erledigt hat
+                clearInterval(x);
+                $('#timer').css('display','none');
+                $('#anzeige').html(msg.message.Aktion);
+                befehlsmarkerStart(parseInt(msg.message.Zeit) );
+            }else{
+                $('#anzeige').html("Auf andere Spieler warten");
+            }
         }
         if(betroffener == 'Alle'){
             $('#anzeige').html(msg.message.Aktion);
@@ -132,9 +136,13 @@ socket.on('befehle', function(msg) {
 });
 socket.on('uberfall',function(msg){
     if(msg.Betroffener == "Alle" || msg.Betroffener == UserHaus){
-        uberfalle();
-        if(msg.message.rabe == UserHaus){
-            $('#timer').css('display','block').html('Wildlingskarte anschauen oder Befehl tauschen!')
+        if (!('erledigt' in msg)){ // Wenn Spieler diesen Schritt noch nicht erledigt hat
+            uberfalle();
+            if(msg.message.rabe == UserHaus){
+                $('#timer').css('display','block').html('Wildlingskarte anschauen oder Befehl tauschen!')
+            }
+        }else{
+            $('#anzeige').html("Auf andere Spieler warten");
         }
     }
 });
@@ -168,10 +176,14 @@ socket.on('machtzuwachs', function(msg) {
         resetNochNichtFertig();
         var betroffener = msg.message.Haus;
         if(betroffener == UserHaus){
-            clearInterval(x);
-            $('#timer').css('display','none');
-            $('#anzeige').html(msg.message.Aktion);
-            machtStart(parseInt(msg.message.Zeit) );
+            if (!('erledigt' in msg)){ // Wenn Spieler diesen Schritt noch nicht erledigt hat
+                clearInterval(x);
+                $('#timer').css('display','none');
+                $('#anzeige').html(msg.message.Aktion);
+                machtStart(parseInt(msg.message.Zeit) );
+            }else{
+                $('#anzeige').html("Auf andere Spieler warten");
+            }
         }
         if(betroffener == 'Alle'){
             $('#anzeige').html(msg.message.Aktion);
